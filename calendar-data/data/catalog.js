@@ -61,7 +61,7 @@ module.exports = {
       time: ['7am', '2pm'],
       days: ['F'],
       dayIndex: [5],
-      timeIndex: [8, 14],
+      timeIndex: [7, 14],
     },
     {
       id: 7,
@@ -83,7 +83,7 @@ module.exports = {
     },
     {
       id: 9,
-      name: "Massage Theray",
+      name: "Massage Therapy",
       author: "James Jones",
       time: ['11am', '12pm'],
       days: ['T', 'Th'],
