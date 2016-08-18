@@ -17,7 +17,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -39,7 +39,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -59,7 +59,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -80,7 +80,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -102,7 +102,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -122,7 +122,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -143,7 +143,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -165,7 +165,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -185,7 +185,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -206,7 +206,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -228,7 +228,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -248,7 +248,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -269,7 +269,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -291,7 +291,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -311,7 +311,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -332,7 +332,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -354,7 +354,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -374,7 +374,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -395,7 +395,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -417,7 +417,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -437,7 +437,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -458,7 +458,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -480,7 +480,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -500,7 +500,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -521,7 +521,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -543,7 +543,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -563,7 +563,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -584,7 +584,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -606,7 +606,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -626,7 +626,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -647,7 +647,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -669,7 +669,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -689,7 +689,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -710,7 +710,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -732,7 +732,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -752,7 +752,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -773,7 +773,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -795,7 +795,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -815,7 +815,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -836,7 +836,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -858,7 +858,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -878,7 +878,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -899,7 +899,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -921,7 +921,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -941,7 +941,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -962,7 +962,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -984,7 +984,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1004,7 +1004,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1025,7 +1025,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1047,7 +1047,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1067,7 +1067,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1088,7 +1088,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1110,7 +1110,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1130,7 +1130,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1151,7 +1151,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1173,7 +1173,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1193,7 +1193,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1214,7 +1214,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1236,7 +1236,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1256,7 +1256,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1277,7 +1277,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1299,7 +1299,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1319,7 +1319,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1340,7 +1340,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1362,7 +1362,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1382,7 +1382,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1403,7 +1403,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1425,7 +1425,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1445,7 +1445,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1466,7 +1466,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1488,7 +1488,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1508,7 +1508,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1529,7 +1529,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1551,7 +1551,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1571,7 +1571,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1592,7 +1592,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1614,7 +1614,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1634,7 +1634,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1655,7 +1655,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1677,7 +1677,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1697,7 +1697,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1718,7 +1718,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1740,7 +1740,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1760,7 +1760,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1781,7 +1781,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1803,7 +1803,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1823,7 +1823,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1844,7 +1844,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1866,7 +1866,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1886,7 +1886,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1907,7 +1907,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1929,7 +1929,7 @@
             "8am",
             "10am"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -1949,7 +1949,7 @@
             "9am",
             "11am"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -1970,7 +1970,7 @@
             "10am",
             "12pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -1992,7 +1992,7 @@
             "11am",
             "1pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -2012,7 +2012,7 @@
             "12pm",
             "2pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -2033,7 +2033,7 @@
             "1pm",
             "3pm"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"
@@ -2055,7 +2055,7 @@
             "2pm",
             "4pm"
          ],
-         "day":[
+         "days":[
             "Tuesday",
             "Thursday"
          ]
@@ -2075,7 +2075,7 @@
             "3pm",
             "5pm"
          ],
-         "day":[
+         "days":[
             "Wednesday"
          ]
       },
@@ -2096,7 +2096,7 @@
             "7am",
             "9am"
          ],
-         "day":[
+         "days":[
             "Monday",
             "Wednesday",
             "Friday"

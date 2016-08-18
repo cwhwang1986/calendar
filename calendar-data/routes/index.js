@@ -62,7 +62,7 @@ router.get('/bigCatalog', function(req, res) {
       timeIndex: [startTime, endTime],
       dayIndex: days,
       time: [formatTime(startTime), formatTime(endTime)],
-      day: _(days).map(function(day) { return dayFormat[day];})
+      days: _(days).map(function(day) { return dayFormat[day];})
     });
   }
   res.json({courses: courses});
