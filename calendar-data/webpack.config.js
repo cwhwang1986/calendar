@@ -9,7 +9,7 @@ const config = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json']
+    extensions: ['', '.js', '.jsx']
   },
   devtool: 'source-map',
   module: {

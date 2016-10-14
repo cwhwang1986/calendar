@@ -31,7 +31,9 @@ module.exports = function (grunt) {
         tasks: ['develop', 'delayed-livereload']
       },
       js: {
-        files: ['public/js/*.js'],
+        files: [
+          'public/assets/*.js'
+        ],
         options: {
           livereload: reloadPort
         }
@@ -56,7 +58,6 @@ module.exports = function (grunt) {
   grunt.config.requires('watch.server.files');
   files = grunt.config('watch.server.files');
   files = grunt.file.expand(files);
-
   grunt.registerTask('delayed-livereload', 'Live reload after the node server has restarted.', function () {
     var done = this.async();
     setTimeout(function () {
@@ -71,9 +72,25 @@ module.exports = function (grunt) {
         });
     }, 500);
   });
+  var webpack = require('webpack');
+  var webpackConfig = require('./webpack.config.js');
+  var webpackCompiler = webpack(webpackConfig);
+  grunt.registerTask('webpack:watch', 'Watch and transpile jsx files', function() {
+    var isCompiled = false;
+    var runTests = function() {
+      if (isCompiled) {
+        console.log('we can run test');
+      }
+    };
+    webpackCompiler.watch(100, function(err, stats) {
+      if (!err) isCompiled = true;
+      runTests();
+    });
+  });
 
   grunt.registerTask('default', [
     'develop',
+    'webpack:watch',
     'watch'
   ]);
 };
