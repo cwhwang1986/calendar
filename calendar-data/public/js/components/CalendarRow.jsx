@@ -1,7 +1,7 @@
 import React from 'react';
 import CalendarCell from './CalendarCell';
 
-const CalendarRow = ({hourLabel, timeIdx, calendarMatrix, courseList}) => {
+const CalendarRow = ({hourLabel, timeIdx, calendarMatrix, courseList, onSelectRemoveCourse, showCourseSetting}) => {
   const weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   return (
     <div className='calendarRow'>
@@ -18,7 +18,9 @@ const CalendarRow = ({hourLabel, timeIdx, calendarMatrix, courseList}) => {
                     dayIdx={dayIdx} 
                     timeIdx={timeIdx} 
                     courseList={courseList}
+                    showCourseSetting={showCourseSetting}
                     selected={calendarMatrix[timeIdx][dayIdx]}
+                    onSelectRemoveCourse={onSelectRemoveCourse}
                   />
                 }
               </div>

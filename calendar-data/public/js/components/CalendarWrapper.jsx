@@ -67,9 +67,6 @@ class CalendarWrapper extends React.Component {
       selectedCourses: newSelectedCourses
     });
   }
-  onRemoveCourse(courseId) {
-
-  }
   render() {
     return (
       <div className='calendarWrapper'>
@@ -86,6 +83,8 @@ class CalendarWrapper extends React.Component {
             <Calendar 
               courseList={this.state.courseList}
               calendarMatrix={this.state.calendarMatrix}
+              selectedCourses={this.state.selectedCourses}
+              onSelectRemoveCourse={this.onSelectRemoveCourse}
             />
           </div>
         </div>

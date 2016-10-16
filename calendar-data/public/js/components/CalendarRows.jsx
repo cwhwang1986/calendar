@@ -15,6 +15,8 @@ const CalendarRows = props => {
               hourLabel={hourLabel}
               courseList={props.courseList}
               calendarMatrix={props.calendarMatrix}
+              showCourseSetting={props.showCourseSetting}
+              onSelectRemoveCourse={props.onSelectRemoveCourse}
             />
           );
         })

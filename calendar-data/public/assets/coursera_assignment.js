@@ -29500,9 +29500,6 @@
 	      });
 	    }
 	  }, {
-	    key: 'onRemoveCourse',
-	    value: function onRemoveCourse(courseId) {}
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -29526,7 +29523,9 @@
 	            }),
 	            _react2.default.createElement(_Calendar2.default, {
 	              courseList: this.state.courseList,
-	              calendarMatrix: this.state.calendarMatrix
+	              calendarMatrix: this.state.calendarMatrix,
+	              selectedCourses: this.state.selectedCourses,
+	              onSelectRemoveCourse: this.onSelectRemoveCourse
 	            })
 	          )
 	        )
@@ -29738,6 +29737,8 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(299);
@@ -29751,6 +29752,10 @@
 	var _CalendarRows = __webpack_require__(475);
 	
 	var _CalendarRows2 = _interopRequireDefault(_CalendarRows);
+	
+	var _CourseSetting = __webpack_require__(480);
+	
+	var _CourseSetting2 = _interopRequireDefault(_CourseSetting);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29766,17 +29771,48 @@
 	  function Calendar(props) {
 	    _classCallCheck(this, Calendar);
 	
-	    return _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props));
+	
+	    _this.showCourseSetting = _this.showCourseSetting.bind(_this);
+	    _this.closeCourseSetting = _this.closeCourseSetting.bind(_this);
+	    _this.state = {
+	      courseSetting: null,
+	      popUpPosition: []
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(Calendar, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (this.state.courseSetting && !newProps.selectedCourses[this.state.courseSetting.id]) {
+	        this.setState({ courseSetting: null, popUpPosition: [] });
+	      }
+	    }
+	  }, {
+	    key: 'showCourseSetting',
+	    value: function showCourseSetting(courseId, top, left) {
+	      this.setState({ courseSetting: this.props.courseList[courseId], popUpPosition: [top, left] });
+	    }
+	  }, {
+	    key: 'closeCourseSetting',
+	    value: function closeCourseSetting() {
+	      this.setState({ courseSetting: null, popUpPosition: [] });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'calendar' },
 	        _react2.default.createElement(_CalendarLabel2.default, null),
-	        _react2.default.createElement(_CalendarRows2.default, this.props)
+	        _react2.default.createElement(_CalendarRows2.default, _extends({}, this.props, { showCourseSetting: this.showCourseSetting })),
+	        this.state.courseSetting && _react2.default.createElement(_CourseSetting2.default, {
+	          courseObj: this.state.courseSetting,
+	          popUpPosition: this.state.popUpPosition,
+	          closeCourseSetting: this.closeCourseSetting,
+	          onSelectRemoveCourse: this.props.onSelectRemoveCourse
+	        })
 	      );
 	    }
 	  }]);
@@ -29851,7 +29887,9 @@
 	        timeIdx: timeIdx,
 	        hourLabel: hourLabel,
 	        courseList: props.courseList,
-	        calendarMatrix: props.calendarMatrix
+	        calendarMatrix: props.calendarMatrix,
+	        showCourseSetting: props.showCourseSetting,
+	        onSelectRemoveCourse: props.onSelectRemoveCourse
 	      });
 	    })
 	  );
@@ -29883,6 +29921,8 @@
 	  var timeIdx = _ref.timeIdx;
 	  var calendarMatrix = _ref.calendarMatrix;
 	  var courseList = _ref.courseList;
+	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
+	  var showCourseSetting = _ref.showCourseSetting;
 	
 	  var weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 	  return _react2.default.createElement(
@@ -29903,7 +29943,9 @@
 	            dayIdx: dayIdx,
 	            timeIdx: timeIdx,
 	            courseList: courseList,
-	            selected: calendarMatrix[timeIdx][dayIdx]
+	            showCourseSetting: showCourseSetting,
+	            selected: calendarMatrix[timeIdx][dayIdx],
+	            onSelectRemoveCourse: onSelectRemoveCourse
 	          })
 	        );
 	      }
@@ -29935,6 +29977,8 @@
 	  var timeIdx = _ref.timeIdx;
 	  var courseList = _ref.courseList;
 	  var selected = _ref.selected;
+	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
+	  var showCourseSetting = _ref.showCourseSetting;
 	
 	  return _react2.default.createElement(
 	    'div',
@@ -29954,7 +29998,17 @@
 	          {
 	            key: courseId,
 	            style: style,
-	            className: 'cellContent'
+	            className: 'cellContent',
+	            onClick: function onClick(event) {
+	              event.stopPropagation();
+	
+	              var _event$target$getBoun = event.target.getBoundingClientRect();
+	
+	              var top = _event$target$getBoun.top;
+	              var left = _event$target$getBoun.left;
+	
+	              showCourseSetting(courseId, top, left);
+	            }
 	          },
 	          courseList[courseId].name
 	        );
@@ -30090,6 +30144,55 @@
 	
 	module.exports = update;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
+
+/***/ },
+/* 480 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Course = __webpack_require__(472);
+	
+	var _Course2 = _interopRequireDefault(_Course);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CourseSetting = function CourseSetting(_ref) {
+	  var courseObj = _ref.courseObj;
+	  var popUpPosition = _ref.popUpPosition;
+	  var closeCourseSetting = _ref.closeCourseSetting;
+	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
+	
+	  var courseLength = courseObj.timeIndex[1] - courseObj.timeIndex[0];
+	  var top = popUpPosition[0] < 180 ? popUpPosition[0] + courseLength * 50 + 10 : popUpPosition[0] - 160;
+	  var left = popUpPosition[1] - 40;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'courseSetting', style: { top: top, left: left } },
+	    _react2.default.createElement(
+	      'span',
+	      {
+	        className: 'closePopUpIcon',
+	        onClick: closeCourseSetting
+	      },
+	      'X'
+	    ),
+	    _react2.default.createElement(_Course2.default, {
+	      courseObj: courseObj,
+	      onSelectRemoveCourse: onSelectRemoveCourse,
+	      isSelected: true
+	    })
+	  );
+	};
+	exports.default = CourseSetting;
 
 /***/ }
 /******/ ]);

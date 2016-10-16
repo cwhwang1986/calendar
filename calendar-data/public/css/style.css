@@ -158,7 +158,10 @@ button.primary:focus {
 }
 .calendarContent .calendar .timeColumn {
     width: 50px;
-    background: lightgreen;
+    background: #e5f2ff;
+}
+.calendarContent .calendarLabels .timeColumn:first-child {
+    background: none;
 }
 .calendarContent .calendar .dayColumn {
     min-width: 110px;
@@ -185,14 +188,35 @@ button.primary:focus {
 }
 .calendarContent .calendar .calendarCell {
     height: 100%;
-    cursor: pointer;
 }
 .calendarContent .calendar .cellContent {
     float: left;
     padding: 2px;
+    cursor: pointer;
     font-size: 10px;
     overflow: hidden;
     line-height: 13px;
     display: inline-block;
     overflow-wrap: break-word;
 }
+.calendarContent .calendar .cellContent:hover {
+    text-decoration: underline;
+}
+.calendarContent .calendar .courseSetting {
+    top: 0;
+    padding: 10px;
+    width: 340px;
+    height: 150px;
+    position: fixed;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px #333;
+}
+.calendarContent .calendar .courseSetting .closePopUpIcon {
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    position: absolute;
+}
+
+
