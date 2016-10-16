@@ -10,4 +10,4 @@ window.setTimeout(() => {
     <CalendarWrapper/>,
     mountNode
   );
-}, 5000);
+}, 2000);

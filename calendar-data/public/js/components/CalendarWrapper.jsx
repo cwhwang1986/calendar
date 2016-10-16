@@ -6,9 +6,24 @@ import Calendar from './Calendar';
 class CalendarWrapper extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      coursesList: [],
+      selectedCourses: {}
+    };
   } 
   componentDidMount() {
-    console.log('this props', this.props.name);
+    this._fetchCourseList(coursesList => {
+      this.setState({coursesList});
+    })
+  }
+  _fetchCourseList(callback) {
+    fetch('/bigCatalog')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(jsonObj) {
+      callback(jsonObj.courses);
+    }) 
   }
   render() {
     return (
@@ -18,7 +33,11 @@ class CalendarWrapper extends React.Component {
         </div>
         <div className='contentWrapper'>
           <div className='calendarContent'>
-            <CourseCatalog/>
+            <CourseCatalog
+              coursesList={this.state.coursesList}
+              selectOrRemove={() => {}}
+              selectedCourses={this.state.selectedCourses}
+            />
             <Calendar/>
           </div>
         </div>

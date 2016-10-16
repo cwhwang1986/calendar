@@ -8197,7 +8197,7 @@
 	window.setTimeout(function () {
 	  console.log('timeout');
 	  _reactDom2.default.render(_react2.default.createElement(_CalendarWrapper2.default, null), mountNode);
-	}, 5000);
+	}, 2000);
 
 /***/ },
 /* 299 */
@@ -29422,13 +29422,32 @@
 	  function CalendarWrapper(props) {
 	    _classCallCheck(this, CalendarWrapper);
 	
-	    return _possibleConstructorReturn(this, (CalendarWrapper.__proto__ || Object.getPrototypeOf(CalendarWrapper)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (CalendarWrapper.__proto__ || Object.getPrototypeOf(CalendarWrapper)).call(this, props));
+	
+	    _this.state = {
+	      coursesList: [],
+	      selectedCourses: {}
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(CalendarWrapper, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      console.log('this props', this.props.name);
+	      var _this2 = this;
+	
+	      this._fetchCourseList(function (coursesList) {
+	        _this2.setState({ coursesList: coursesList });
+	      });
+	    }
+	  }, {
+	    key: '_fetchCourseList',
+	    value: function _fetchCourseList(callback) {
+	      fetch('/bigCatalog').then(function (response) {
+	        return response.json();
+	      }).then(function (jsonObj) {
+	        callback(jsonObj.courses);
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -29447,7 +29466,11 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'calendarContent' },
-	            _react2.default.createElement(_CourseCatalog2.default, null),
+	            _react2.default.createElement(_CourseCatalog2.default, {
+	              coursesList: this.state.coursesList,
+	              selectOrRemove: function selectOrRemove() {},
+	              selectedCourses: this.state.selectedCourses
+	            }),
 	            _react2.default.createElement(_Calendar2.default, null)
 	          )
 	        )
@@ -29500,6 +29523,8 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(299);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -29510,25 +29535,61 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var CourseCatalog = function CourseCatalog(_ref) {
-	  var courseList = _ref.courseList;
-	  var selectOrRemove = _ref.selectOrRemove;
-	  var selectedCourses = _ref.selectedCourses;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'courseCatalog' },
-	    false && courseList.map(function (courseObj, idx) {
-	      return _react2.default.createElement(_Course2.default, {
-	        key: idx + '-' + courseObj.name,
-	        courseName: courseObj.name,
-	        isSelected: selectedCourses.has(courseObj.id),
-	        selectOrRemove: selectOrRemove.bind(courseObj.id)
-	      });
-	    }),
-	    'HELLOOOOOOOO in CourseCatalog'
-	  );
-	};
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CourseCatalog = function (_React$Component) {
+	  _inherits(CourseCatalog, _React$Component);
+	
+	  function CourseCatalog(props) {
+	    _classCallCheck(this, CourseCatalog);
+	
+	    return _possibleConstructorReturn(this, (CourseCatalog.__proto__ || Object.getPrototypeOf(CourseCatalog)).call(this, props));
+	  }
+	
+	  _createClass(CourseCatalog, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var coursesList = _props.coursesList;
+	      var selectOrRemove = _props.selectOrRemove;
+	      var selectedCourses = _props.selectedCourses;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'courseCatalog' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'searchWrapper' },
+	          _react2.default.createElement('input', {
+	            className: 'courseSearch',
+	            placeholder: 'Search Course'
+	
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'coursesWrapper' },
+	          coursesList.length && coursesList.map(function (courseObj, idx) {
+	            return _react2.default.createElement(_Course2.default, {
+	              key: idx + '-' + courseObj.name,
+	              courseObj: courseObj,
+	              isSelected: !!selectedCourses[courseObj.id],
+	              selectOrRemove: selectOrRemove.bind(courseObj.id)
+	            });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return CourseCatalog;
+	}(_react2.default.Component);
+	
+	;
 	exports.default = CourseCatalog;
 
 /***/ },
@@ -29537,6 +29598,10 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _react = __webpack_require__(299);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -29544,26 +29609,57 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Course = function Course(_ref) {
-	  var courseName = _ref.courseName;
+	  var courseObj = _ref.courseObj;
 	  var selectOrRemove = _ref.selectOrRemove;
 	  var isSelected = _ref.isSelected;
 	
-	  var courseSelectIcon = isSelected ? '-' : '+';
+	  var courseButtonText = isSelected ? 'Unselect' : 'Select';
+	  var time = courseObj.time.join(' - ');
+	  var days = courseObj.days.map(function (day) {
+	    return day.substr(0, 3);
+	  }).join('/');
 	  return _react2.default.createElement(
 	    'div',
-	    null,
+	    { className: 'course' },
 	    _react2.default.createElement(
-	      'span',
-	      null,
-	      courseName
+	      'h4',
+	      { className: 'courseName' },
+	      courseObj.name
 	    ),
 	    _react2.default.createElement(
-	      'span',
-	      { onClick: selectOrRemove },
-	      courseSelectIcon
+	      'div',
+	      { className: 'courseAuthor' },
+	      'Author:\xA0',
+	      _react2.default.createElement(
+	        'span',
+	        { className: 'courseBoldText' },
+	        courseObj.author
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'courseTime' },
+	      'Time:\xA0',
+	      _react2.default.createElement(
+	        'span',
+	        { className: 'courseBoldText' },
+	        time
+	      ),
+	      '\xA0on\xA0',
+	      _react2.default.createElement(
+	        'span',
+	        { className: 'courseBoldText' },
+	        days
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'button',
+	      { type: 'button', className: 'primary courseSelectButton' },
+	      courseButtonText
 	    )
 	  );
 	};
+	exports.default = Course;
 
 /***/ },
 /* 473 */

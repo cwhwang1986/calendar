@@ -16,6 +16,19 @@ body {
 #container {
     height: 100vh;
 }
+button.primary {
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    background: #2073d4;
+    border-radius: 2px;
+    border: none;
+
+}
+button.primary:hover {
+    color: white;
+    background: #005bbe;
+}
 .calendarWrapper {
     height: 100%;
 }
@@ -37,11 +50,10 @@ body {
 }
 .contentWrapper {
     height: calc(100% - 60px);
-    background: #f5f5f5;
+    background: #ebebeb;
 }
 .calendarContent {
     height: 100%;
-    padding: 15px;
     margin: 0 auto;
     max-width: 1200px;
 }
@@ -97,8 +109,65 @@ body {
     min-width: 600px;
     border-top: 1px solid lightgrey;
 }
-
-
+.calendarContent .searchWrapper {
+    height: 35px;
+    width: 100%;
+    padding-bottom: 10px;
+}
+.calendarContent .searchWrapper .courseSearch {
+    height: 35px;
+    width: 100%;
+    font-size: 14px;
+    padding: 3px 0 3px 5px;
+}
+.calendarContent .searchWrapper {
+    height: 45px;
+    width: 100%;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+.calendarContent .coursesWrapper {
+    overflow-y: scroll;
+    padding-right: 10px;
+    height: calc(100% - 45px);
+}
+.calendarContent .coursesWrapper .course {
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 7px;
+    background: #f8f8f8;
+    padding: 0 10px 28px 10px;
+    border: 1px solid #dbe2e8;
+    box-shadow: 1px 2px 5px -2px #2E3D49;
+}
+.calendarContent .course .courseName {
+    color: #4a90e2;
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: 500;
+    overflow-wrap: break-word;
+}
+.calendarContent .course .courseAuthor {
+    font-size: 13px;
+    color: #595959;
+    padding-bottom: 5px;
+}
+.calendarContent .course .courseTime {
+    color: #7a7a7a;
+    font-size: 12px;
+    padding-bottom: 5px;
+}
+.calendarContent .course .courseBoldText {
+    font-weight: 600;
+    color: #333;
+}
+.calendarContent .course .courseSelectButton {
+    right: 6px;
+    bottom: 3px;
+    font-weight: 300;
+    padding: 5px 13px;
+    position: absolute;
+}
 
 
 
