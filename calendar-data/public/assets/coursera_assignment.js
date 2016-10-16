@@ -8187,14 +8187,17 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _wrapper = __webpack_require__(470);
+	var _CalendarWrapper = __webpack_require__(469);
 	
-	var _wrapper2 = _interopRequireDefault(_wrapper);
+	var _CalendarWrapper2 = _interopRequireDefault(_CalendarWrapper);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mountNode = document.querySelector('#container');
-	_reactDom2.default.render(_react2.default.createElement(_wrapper2.default, null), mountNode);
+	window.setTimeout(function () {
+	  console.log('timeout');
+	  _reactDom2.default.render(_react2.default.createElement(_CalendarWrapper2.default, null), mountNode);
+	}, 5000);
 
 /***/ },
 /* 299 */
@@ -29378,7 +29381,65 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 469 */,
+/* 469 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _CourseCatalog = __webpack_require__(470);
+	
+	var _CourseCatalog2 = _interopRequireDefault(_CourseCatalog);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CalendarWrapper = function (_React$Component) {
+	  _inherits(CalendarWrapper, _React$Component);
+	
+	  function CalendarWrapper(props) {
+	    _classCallCheck(this, CalendarWrapper);
+	
+	    return _possibleConstructorReturn(this, (CalendarWrapper.__proto__ || Object.getPrototypeOf(CalendarWrapper)).call(this, props));
+	  }
+	
+	  _createClass(CalendarWrapper, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.log('this props', this.props.name);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { style: { padding: 20 } },
+	        _react2.default.createElement(_CourseCatalog2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return CalendarWrapper;
+	}(_react2.default.Component);
+	
+	;
+	exports.default = CalendarWrapper;
+
+/***/ },
 /* 470 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -29392,16 +29453,66 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _Course = __webpack_require__(471);
+	
+	var _Course2 = _interopRequireDefault(_Course);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var component = function component() {
+	var CourseCatalog = function CourseCatalog(_ref) {
+	  var courseList = _ref.courseList;
+	  var selectOrRemove = _ref.selectOrRemove;
+	  var selectedCourses = _ref.selectedCourses;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'courseCatalog', style: { width: 200, border: '1px solid lightgrey' } },
+	    false && courseList.map(function (courseObj, idx) {
+	      return _react2.default.createElement(_Course2.default, {
+	        key: idx + '-' + courseObj.name,
+	        courseName: courseObj.name,
+	        isSelected: selectedCourses.has(courseObj.id),
+	        selectOrRemove: selectOrRemove.bind(courseObj.id)
+	      });
+	    }),
+	    'HELLOOOOOOOO in CourseCatalog'
+	  );
+	};
+	exports.default = CourseCatalog;
+
+/***/ },
+/* 471 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Course = function Course(_ref) {
+	  var courseName = _ref.courseName;
+	  var selectOrRemove = _ref.selectOrRemove;
+	  var isSelected = _ref.isSelected;
+	
+	  var courseSelectIcon = isSelected ? '-' : '+';
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    'HELLO REACT!!!!!'
+	    _react2.default.createElement(
+	      'span',
+	      null,
+	      courseName
+	    ),
+	    _react2.default.createElement(
+	      'span',
+	      { onClick: selectOrRemove },
+	      courseSelectIcon
+	    )
 	  );
 	};
-	exports.default = component;
 
 /***/ }
 /******/ ]);

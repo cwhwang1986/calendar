@@ -1,10 +1,12 @@
+require('babel-register');
 var express = require('express');
 var catalog = require('../data/catalog');
 var router = express.Router();
 var _ = require('underscore');
-
+var React = require('react');
+var ReactDOMServer = require('react-dom/server');
+var CalendarWrapper = React.createFactory(require('../public/js/components/CalendarWrapper').default);
 /* GET home page. */
-
 function formatTime(time) {
   if (time < 12) {
     return time + 'am';
@@ -40,7 +42,10 @@ var dayFormat = {
 
 
 router.get('/', function(req, res) {
-  res.render('index');
+  var calendarWrapperHtml = ReactDOMServer.renderToString(CalendarWrapper({name: 'server props'}));
+  res.render('index', {
+    reactServerSideOutput: calendarWrapperHtml
+  });
 });
 
 router.get('/catalog', function(req, res) {

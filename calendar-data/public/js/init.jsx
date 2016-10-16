@@ -1,10 +1,13 @@
 'use strict'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Wrapper from './components/wrapper';
+import CalendarWrapper from './components/CalendarWrapper';
 
 const mountNode = document.querySelector('#container');
-ReactDOM.render(
-	<Wrapper/>,
-	mountNode
-);
+window.setTimeout(() => {
+  console.log('timeout');
+  ReactDOM.render(
+    <CalendarWrapper/>,
+    mountNode
+  );
+}, 5000);
