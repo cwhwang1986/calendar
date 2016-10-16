@@ -16,6 +16,9 @@ body {
 #container {
     height: 100vh;
 }
+button:focus {
+    outline: none;
+}
 button.primary {
     color: white;
     cursor: pointer;
@@ -28,6 +31,10 @@ button.primary {
 button.primary:hover {
     color: white;
     background: #005bbe;
+}
+button.primary:focus {
+    color: white;
+    background: #629de0;
 }
 .calendarWrapper {
     height: 100%;
@@ -119,6 +126,7 @@ button.primary:hover {
     color: #333;
 }
 .calendarContent .course .courseSelectButton {
+    width: 72px;
     right: 6px;
     bottom: 3px;
     font-weight: 300;
@@ -131,7 +139,7 @@ button.primary:hover {
     width: calc(100% - 300px);
     float: right;
     overflow: auto;
-    padding: 15px;
+    padding: 15px 0;
     display: inline-block;
     border: 1px solid lightgrey;
 }

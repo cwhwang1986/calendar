@@ -21,12 +21,16 @@ const Course = ({courseObj, onSelectCourse, onRemoveCourse, isSelected}) => {
         type='button' 
         className='primary courseSelectButton'
         onClick={event => {
-          event.stopPropagation()
+          event.stopPropagation();
           if (isSelected) {
             onRemoveCourse(courseObj.id);
           } else {
             onSelectCourse(courseObj.id);
           }
+        }}
+        onMouseUp={event=>{
+          event.stopPropagation();
+          event.target.blur();
         }}
       >
         {courseButtonText}

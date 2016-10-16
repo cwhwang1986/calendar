@@ -38,6 +38,7 @@ class CalendarWrapper extends React.Component {
   }
   onSelectCourse(courseId) {
     const calendarMatrix = this.state.calendarMatrix;
+    const newSelectedCourses = Object.assign({}, this.state.selectedCourses);
     const courseObj = this.state.courseList[courseId];
     const courseTimeIdx = courseObj.timeIndex;
     const courseDayIdx = courseObj.dayIndex;
@@ -50,11 +51,15 @@ class CalendarWrapper extends React.Component {
           console.log('Oh oh there\'s a conflict!');
           newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$merge: {[courseId]: true}}}});
         } else {
+          newSelectedCourses[courseId] = true;
           newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$set: {[courseId]: true}}}});
         }
       });
     }    
-    this.setState({calendarMatrix: newCalendarMatrix});
+    this.setState({
+      calendarMatrix: newCalendarMatrix,
+      selectedCourses: newSelectedCourses
+    });
   }
   onRemoveCourse(courseId) {
 

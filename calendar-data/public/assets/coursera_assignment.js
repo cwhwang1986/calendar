@@ -29468,6 +29468,7 @@
 	    key: 'onSelectCourse',
 	    value: function onSelectCourse(courseId) {
 	      var calendarMatrix = this.state.calendarMatrix;
+	      var newSelectedCourses = Object.assign({}, this.state.selectedCourses);
 	      var courseObj = this.state.courseList[courseId];
 	      var courseTimeIdx = courseObj.timeIndex;
 	      var courseDayIdx = courseObj.dayIndex;
@@ -29480,11 +29481,15 @@
 	            console.log('Oh oh there\'s a conflict!');
 	            newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $merge: _defineProperty({}, courseId, true) })));
 	          } else {
+	            newSelectedCourses[courseId] = true;
 	            newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $set: _defineProperty({}, courseId, true) })));
 	          }
 	        });
 	      }
-	      this.setState({ calendarMatrix: newCalendarMatrix });
+	      this.setState({
+	        calendarMatrix: newCalendarMatrix,
+	        selectedCourses: newSelectedCourses
+	      });
 	    }
 	  }, {
 	    key: 'onRemoveCourse',
@@ -29711,6 +29716,10 @@
 	          } else {
 	            onSelectCourse(courseObj.id);
 	          }
+	        },
+	        onMouseUp: function onMouseUp(event) {
+	          event.stopPropagation();
+	          event.target.blur();
 	        }
 	      },
 	      courseButtonText
@@ -29894,7 +29903,7 @@
 	            dayIdx: dayIdx,
 	            timeIdx: timeIdx,
 	            courseList: courseList,
-	            selectedCourses: Object.keys(calendarMatrix[timeIdx][dayIdx])
+	            selected: Object.keys(calendarMatrix[timeIdx][dayIdx])
 	          })
 	        );
 	      }
@@ -29925,18 +29934,18 @@
 	  var dayIdx = _ref.dayIdx;
 	  var timeIdx = _ref.timeIdx;
 	  var courseList = _ref.courseList;
-	  var selectedCourses = _ref.selectedCourses;
+	  var selected = _ref.selected;
 	
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'calendarCell' },
-	    selectedCourses.map(function (courseId, idx) {
+	    selected.map(function (courseId, idx) {
 	      var courseTimeRange = courseList[courseId].timeIndex;
 	      if (courseTimeRange[0] === timeIdx) {
 	        var height = (courseTimeRange[courseTimeRange.length - 1] - timeIdx) * 50 - 1;
 	        var style = {
 	          height: height,
-	          width: 'calc(100%/' + selectedCourses.length + ')',
+	          width: 'calc(100%/' + selected.length + ')',
 	          background: colorHex[idx % 5],
 	          border: '1px solid ' + borderColorHex[idx % 5]
 	        };
