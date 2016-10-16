@@ -10,7 +10,7 @@ class Calendar extends React.Component {
     return (
       <div className='calendar'>
         <CalendarLabel/>
-        <CalendarRows/>
+        <CalendarRows {...this.props}/>
       </div>
     );
   }

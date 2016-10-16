@@ -8194,10 +8194,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mountNode = document.querySelector('#container');
-	window.setTimeout(function () {
-	  console.log('timeout');
-	  _reactDom2.default.render(_react2.default.createElement(_CalendarWrapper2.default, null), mountNode);
-	}, 2000);
+	_reactDom2.default.render(_react2.default.createElement(_CalendarWrapper2.default, null), mountNode);
 
 /***/ },
 /* 299 */
@@ -29408,7 +29405,15 @@
 	
 	var _Calendar2 = _interopRequireDefault(_Calendar);
 	
+	var _reactAddonsUpdate = __webpack_require__(478);
+	
+	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -29422,11 +29427,21 @@
 	  function CalendarWrapper(props) {
 	    _classCallCheck(this, CalendarWrapper);
 	
+	    // bind this to method
 	    var _this = _possibleConstructorReturn(this, (CalendarWrapper.__proto__ || Object.getPrototypeOf(CalendarWrapper)).call(this, props));
 	
+	    _this.onSelectCourse = _this.onSelectCourse.bind(_this);
+	    // Initialize the calendar 2d matrix
+	    var calendarMatrix = [];
+	    for (var i = 0; i < 24; i++) {
+	      var calendarRow = new Array(6).fill(null);
+	      calendarMatrix.push(calendarRow);
+	    }
 	    _this.state = {
-	      coursesList: [],
-	      selectedCourses: {}
+	      courseList: [],
+	      calendarName: '',
+	      selectedCourses: {},
+	      calendarMatrix: calendarMatrix
 	    };
 	    return _this;
 	  }
@@ -29436,19 +29451,44 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 	
-	      this._fetchCourseList(function (coursesList) {
-	        _this2.setState({ coursesList: coursesList });
+	      this.fetchCourseList(function (courseList) {
+	        _this2.setState({ courseList: courseList });
 	      });
 	    }
 	  }, {
-	    key: '_fetchCourseList',
-	    value: function _fetchCourseList(callback) {
+	    key: 'fetchCourseList',
+	    value: function fetchCourseList(callback) {
 	      fetch('/bigCatalog').then(function (response) {
 	        return response.json();
 	      }).then(function (jsonObj) {
 	        callback(jsonObj.courses);
 	      });
 	    }
+	  }, {
+	    key: 'onSelectCourse',
+	    value: function onSelectCourse(courseId) {
+	      var calendarMatrix = this.state.calendarMatrix;
+	      var courseObj = this.state.courseList[courseId];
+	      var courseTimeIdx = courseObj.timeIndex;
+	      var courseDayIdx = courseObj.dayIndex;
+	      var newCalendarMatrix = [].concat(_toConsumableArray(calendarMatrix));
+	      var timeIdx = courseTimeIdx[0];
+	      var endTime = courseTimeIdx[courseTimeIdx.length - 1];
+	      for (; timeIdx < endTime; timeIdx++) {
+	        courseDayIdx.forEach(function (dayIdx) {
+	          if (calendarMatrix[timeIdx][dayIdx]) {
+	            console.log('Oh oh there\'s a conflict!');
+	            newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $merge: _defineProperty({}, courseId, true) })));
+	          } else {
+	            newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $set: _defineProperty({}, courseId, true) })));
+	          }
+	        });
+	      }
+	      this.setState({ calendarMatrix: newCalendarMatrix });
+	    }
+	  }, {
+	    key: 'onRemoveCourse',
+	    value: function onRemoveCourse(courseId) {}
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -29467,11 +29507,15 @@
 	            'div',
 	            { className: 'calendarContent' },
 	            _react2.default.createElement(_CourseCatalog2.default, {
-	              coursesList: this.state.coursesList,
-	              selectOrRemove: function selectOrRemove() {},
+	              courseList: this.state.courseList,
+	              onSelectCourse: this.onSelectCourse,
+	              onRemoveCourse: this.onRemoveCourse,
 	              selectedCourses: this.state.selectedCourses
 	            }),
-	            _react2.default.createElement(_Calendar2.default, null)
+	            _react2.default.createElement(_Calendar2.default, {
+	              courseList: this.state.courseList,
+	              calendarMatrix: this.state.calendarMatrix
+	            })
 	          )
 	        )
 	      );
@@ -29554,8 +29598,9 @@
 	    key: 'render',
 	    value: function render() {
 	      var _props = this.props;
-	      var coursesList = _props.coursesList;
-	      var selectOrRemove = _props.selectOrRemove;
+	      var courseList = _props.courseList;
+	      var onSelectCourse = _props.onSelectCourse;
+	      var onRemoveCourse = _props.onRemoveCourse;
 	      var selectedCourses = _props.selectedCourses;
 	
 	      return _react2.default.createElement(
@@ -29573,12 +29618,13 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'coursesWrapper' },
-	          coursesList.length && coursesList.map(function (courseObj, idx) {
+	          courseList.length && courseList.map(function (courseObj, idx) {
 	            return _react2.default.createElement(_Course2.default, {
 	              key: idx + '-' + courseObj.name,
 	              courseObj: courseObj,
 	              isSelected: !!selectedCourses[courseObj.id],
-	              selectOrRemove: selectOrRemove.bind(courseObj.id)
+	              onSelectCourse: onSelectCourse,
+	              onRemoveCourse: onRemoveCourse
 	            });
 	          })
 	        )
@@ -29610,7 +29656,8 @@
 	
 	var Course = function Course(_ref) {
 	  var courseObj = _ref.courseObj;
-	  var selectOrRemove = _ref.selectOrRemove;
+	  var onSelectCourse = _ref.onSelectCourse;
+	  var onRemoveCourse = _ref.onRemoveCourse;
 	  var isSelected = _ref.isSelected;
 	
 	  var courseButtonText = isSelected ? 'Unselect' : 'Select';
@@ -29654,7 +29701,18 @@
 	    ),
 	    _react2.default.createElement(
 	      'button',
-	      { type: 'button', className: 'primary courseSelectButton' },
+	      {
+	        type: 'button',
+	        className: 'primary courseSelectButton',
+	        onClick: function onClick(event) {
+	          event.stopPropagation();
+	          if (isSelected) {
+	            onRemoveCourse(courseObj.id);
+	          } else {
+	            onSelectCourse(courseObj.id);
+	          }
+	        }
+	      },
 	      courseButtonText
 	    )
 	  );
@@ -29709,7 +29767,7 @@
 	        'div',
 	        { className: 'calendar' },
 	        _react2.default.createElement(_CalendarLabel2.default, null),
-	        _react2.default.createElement(_CalendarRows2.default, null)
+	        _react2.default.createElement(_CalendarRows2.default, this.props)
 	      );
 	    }
 	  }]);
@@ -29773,13 +29831,19 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var CalendarRows = function CalendarRows() {
+	var CalendarRows = function CalendarRows(props) {
 	  var hours = ['12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm'];
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'calendarRows' },
-	    hours.map(function (hourLabel, idx) {
-	      return _react2.default.createElement(_CalendarRow2.default, { key: idx + hourLabel, hourLabel: hourLabel });
+	    hours.map(function (hourLabel, timeIdx) {
+	      return _react2.default.createElement(_CalendarRow2.default, {
+	        key: timeIdx + hourLabel,
+	        timeIdx: timeIdx,
+	        hourLabel: hourLabel,
+	        courseList: props.courseList,
+	        calendarMatrix: props.calendarMatrix
+	      });
 	    })
 	  );
 	};
@@ -29799,29 +29863,224 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _CalendarCell = __webpack_require__(477);
+	
+	var _CalendarCell2 = _interopRequireDefault(_CalendarCell);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var CalendarRow = function CalendarRow(_ref) {
 	  var hourLabel = _ref.hourLabel;
+	  var timeIdx = _ref.timeIdx;
+	  var calendarMatrix = _ref.calendarMatrix;
+	  var courseList = _ref.courseList;
 	
 	  var weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'calendarRow' },
-	    weekDays.map(function (weekday, idx) {
-	      if (!idx) {
+	    weekDays.map(function (weekday, dayIdx) {
+	      if (!dayIdx) {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'weekdayLabel timeColumn', key: idx + weekday },
+	          { className: 'weekdayLabel timeColumn', key: dayIdx + weekday },
 	          hourLabel
 	        );
 	      } else {
-	        return _react2.default.createElement('div', { className: 'weekdayLabel dayColumn', key: idx + weekday });
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'weekdayLabel dayColumn', key: dayIdx + weekday },
+	          calendarMatrix[timeIdx][dayIdx] && _react2.default.createElement(_CalendarCell2.default, {
+	            dayIdx: dayIdx,
+	            timeIdx: timeIdx,
+	            courseList: courseList,
+	            selectedCourses: Object.keys(calendarMatrix[timeIdx][dayIdx])
+	          })
+	        );
 	      }
 	    })
 	  );
 	};
 	exports.default = CalendarRow;
+
+/***/ },
+/* 477 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var colorHex = ['#84add0', '#d4bdab', '#d2cfd9', '#c5dbcf', '#9de7e3'];
+	var borderColorHex = ['#3277b2', '#b89173', '#a69fb4', '#9fc3af', '#3bcfc8'];
+	var CalendarCell = function CalendarCell(_ref) {
+	  var dayIdx = _ref.dayIdx;
+	  var timeIdx = _ref.timeIdx;
+	  var courseList = _ref.courseList;
+	  var selectedCourses = _ref.selectedCourses;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'calendarCell' },
+	    selectedCourses.map(function (courseId, idx) {
+	      var courseTimeRange = courseList[courseId].timeIndex;
+	      if (courseTimeRange[0] === timeIdx) {
+	        var height = (courseTimeRange[courseTimeRange.length - 1] - timeIdx) * 50 - 1;
+	        var style = {
+	          height: height,
+	          width: 'calc(100%/' + selectedCourses.length + ')',
+	          background: colorHex[idx % 5],
+	          border: '1px solid ' + borderColorHex[idx % 5]
+	        };
+	        return _react2.default.createElement(
+	          'div',
+	          {
+	            key: courseId,
+	            style: style,
+	            className: 'cellContent'
+	          },
+	          courseList[courseId].name
+	        );
+	      } else {
+	        return null;
+	      }
+	    })
+	  );
+	};
+	exports.default = CalendarCell;
+
+/***/ },
+/* 478 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(479);
+
+/***/ },
+/* 479 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule update
+	 */
+	
+	/* global hasOwnProperty:true */
+	
+	'use strict';
+	
+	var _prodInvariant = __webpack_require__(304),
+	    _assign = __webpack_require__(301);
+	
+	var keyOf = __webpack_require__(322);
+	var invariant = __webpack_require__(305);
+	var hasOwnProperty = {}.hasOwnProperty;
+	
+	function shallowCopy(x) {
+	  if (Array.isArray(x)) {
+	    return x.concat();
+	  } else if (x && typeof x === 'object') {
+	    return _assign(new x.constructor(), x);
+	  } else {
+	    return x;
+	  }
+	}
+	
+	var COMMAND_PUSH = keyOf({ $push: null });
+	var COMMAND_UNSHIFT = keyOf({ $unshift: null });
+	var COMMAND_SPLICE = keyOf({ $splice: null });
+	var COMMAND_SET = keyOf({ $set: null });
+	var COMMAND_MERGE = keyOf({ $merge: null });
+	var COMMAND_APPLY = keyOf({ $apply: null });
+	
+	var ALL_COMMANDS_LIST = [COMMAND_PUSH, COMMAND_UNSHIFT, COMMAND_SPLICE, COMMAND_SET, COMMAND_MERGE, COMMAND_APPLY];
+	
+	var ALL_COMMANDS_SET = {};
+	
+	ALL_COMMANDS_LIST.forEach(function (command) {
+	  ALL_COMMANDS_SET[command] = true;
+	});
+	
+	function invariantArrayCase(value, spec, command) {
+	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : _prodInvariant('1', command, value) : void 0;
+	  var specValue = spec[command];
+	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. Did you forget to wrap your parameter in an array?', command, specValue) : _prodInvariant('2', command, specValue) : void 0;
+	}
+	
+	/**
+	 * Returns a updated shallow copy of an object without mutating the original.
+	 * See https://facebook.github.io/react/docs/update.html for details.
+	 */
+	function update(value, spec) {
+	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : _prodInvariant('3', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : void 0;
+	
+	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
+	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : _prodInvariant('4', COMMAND_SET) : void 0;
+	
+	    return spec[COMMAND_SET];
+	  }
+	
+	  var nextValue = shallowCopy(value);
+	
+	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
+	    var mergeObj = spec[COMMAND_MERGE];
+	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : _prodInvariant('5', COMMAND_MERGE, mergeObj) : void 0;
+	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : _prodInvariant('6', COMMAND_MERGE, nextValue) : void 0;
+	    _assign(nextValue, spec[COMMAND_MERGE]);
+	  }
+	
+	  if (hasOwnProperty.call(spec, COMMAND_PUSH)) {
+	    invariantArrayCase(value, spec, COMMAND_PUSH);
+	    spec[COMMAND_PUSH].forEach(function (item) {
+	      nextValue.push(item);
+	    });
+	  }
+	
+	  if (hasOwnProperty.call(spec, COMMAND_UNSHIFT)) {
+	    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
+	    spec[COMMAND_UNSHIFT].forEach(function (item) {
+	      nextValue.unshift(item);
+	    });
+	  }
+	
+	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
+	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : _prodInvariant('7', COMMAND_SPLICE, value) : void 0;
+	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
+	    spec[COMMAND_SPLICE].forEach(function (args) {
+	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
+	      nextValue.splice.apply(nextValue, args);
+	    });
+	  }
+	
+	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
+	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : _prodInvariant('9', COMMAND_APPLY, spec[COMMAND_APPLY]) : void 0;
+	    nextValue = spec[COMMAND_APPLY](nextValue);
+	  }
+	
+	  for (var k in spec) {
+	    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
+	      nextValue[k] = update(value[k], spec[k]);
+	    }
+	  }
+	
+	  return nextValue;
+	}
+	
+	module.exports = update;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ }
 /******/ ]);
