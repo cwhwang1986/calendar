@@ -6,7 +6,7 @@ class CourseCatalog extends React.Component {
     super(props);
   }
   render() {
-    const {courseList, onSelectCourse, onRemoveCourse, selectedCourses} = this.props;
+    const {courseList, onSelectRemoveCourse, selectedCourses} = this.props;
     return (
       <div className='courseCatalog'>
         <div className='searchWrapper'>
@@ -25,8 +25,7 @@ class CourseCatalog extends React.Component {
                   key={idx + '-' + courseObj.name}
                   courseObj={courseObj}
                   isSelected={!!selectedCourses[courseObj.id]}
-                  onSelectCourse={onSelectCourse}
-                  onRemoveCourse={onRemoveCourse}
+                  onSelectRemoveCourse={onSelectRemoveCourse}
                 />
               );
             })

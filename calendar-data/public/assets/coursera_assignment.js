@@ -29430,7 +29430,7 @@
 	    // bind this to method
 	    var _this = _possibleConstructorReturn(this, (CalendarWrapper.__proto__ || Object.getPrototypeOf(CalendarWrapper)).call(this, props));
 	
-	    _this.onSelectCourse = _this.onSelectCourse.bind(_this);
+	    _this.onSelectRemoveCourse = _this.onSelectRemoveCourse.bind(_this);
 	    // Initialize the calendar 2d matrix
 	    var calendarMatrix = [];
 	    for (var i = 0; i < 24; i++) {
@@ -29465,8 +29465,10 @@
 	      });
 	    }
 	  }, {
-	    key: 'onSelectCourse',
-	    value: function onSelectCourse(courseId) {
+	    key: 'onSelectRemoveCourse',
+	    value: function onSelectRemoveCourse(courseId) {
+	      var _this3 = this;
+	
 	      var calendarMatrix = this.state.calendarMatrix;
 	      var newSelectedCourses = Object.assign({}, this.state.selectedCourses);
 	      var courseObj = this.state.courseList[courseId];
@@ -29477,12 +29479,18 @@
 	      var endTime = courseTimeIdx[courseTimeIdx.length - 1];
 	      for (; timeIdx < endTime; timeIdx++) {
 	        courseDayIdx.forEach(function (dayIdx) {
-	          if (calendarMatrix[timeIdx][dayIdx]) {
-	            console.log('Oh oh there\'s a conflict!');
-	            newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $merge: _defineProperty({}, courseId, true) })));
+	          if (_this3.state.selectedCourses[courseId]) {
+	            delete newSelectedCourses[courseId];
+	            var targetIdx = newCalendarMatrix[timeIdx][dayIdx].indexOf(courseId);
+	            newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $splice: [[targetIdx, 1]] })));
 	          } else {
-	            newSelectedCourses[courseId] = true;
-	            newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $set: _defineProperty({}, courseId, true) })));
+	            if (calendarMatrix[timeIdx][dayIdx] && calendarMatrix[timeIdx][dayIdx].length) {
+	              console.log('Oh oh there\'s a conflict!');
+	              newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $push: [courseId] })));
+	            } else {
+	              newSelectedCourses[courseId] = true;
+	              newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $set: [courseId] })));
+	            }
 	          }
 	        });
 	      }
@@ -29513,8 +29521,7 @@
 	            { className: 'calendarContent' },
 	            _react2.default.createElement(_CourseCatalog2.default, {
 	              courseList: this.state.courseList,
-	              onSelectCourse: this.onSelectCourse,
-	              onRemoveCourse: this.onRemoveCourse,
+	              onSelectRemoveCourse: this.onSelectRemoveCourse,
 	              selectedCourses: this.state.selectedCourses
 	            }),
 	            _react2.default.createElement(_Calendar2.default, {
@@ -29604,8 +29611,7 @@
 	    value: function render() {
 	      var _props = this.props;
 	      var courseList = _props.courseList;
-	      var onSelectCourse = _props.onSelectCourse;
-	      var onRemoveCourse = _props.onRemoveCourse;
+	      var onSelectRemoveCourse = _props.onSelectRemoveCourse;
 	      var selectedCourses = _props.selectedCourses;
 	
 	      return _react2.default.createElement(
@@ -29628,8 +29634,7 @@
 	              key: idx + '-' + courseObj.name,
 	              courseObj: courseObj,
 	              isSelected: !!selectedCourses[courseObj.id],
-	              onSelectCourse: onSelectCourse,
-	              onRemoveCourse: onRemoveCourse
+	              onSelectRemoveCourse: onSelectRemoveCourse
 	            });
 	          })
 	        )
@@ -29661,8 +29666,7 @@
 	
 	var Course = function Course(_ref) {
 	  var courseObj = _ref.courseObj;
-	  var onSelectCourse = _ref.onSelectCourse;
-	  var onRemoveCourse = _ref.onRemoveCourse;
+	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
 	  var isSelected = _ref.isSelected;
 	
 	  var courseButtonText = isSelected ? 'Unselect' : 'Select';
@@ -29711,11 +29715,7 @@
 	        className: 'primary courseSelectButton',
 	        onClick: function onClick(event) {
 	          event.stopPropagation();
-	          if (isSelected) {
-	            onRemoveCourse(courseObj.id);
-	          } else {
-	            onSelectCourse(courseObj.id);
-	          }
+	          onSelectRemoveCourse(courseObj.id);
 	        },
 	        onMouseUp: function onMouseUp(event) {
 	          event.stopPropagation();
@@ -29903,7 +29903,7 @@
 	            dayIdx: dayIdx,
 	            timeIdx: timeIdx,
 	            courseList: courseList,
-	            selected: Object.keys(calendarMatrix[timeIdx][dayIdx])
+	            selected: calendarMatrix[timeIdx][dayIdx]
 	          })
 	        );
 	      }

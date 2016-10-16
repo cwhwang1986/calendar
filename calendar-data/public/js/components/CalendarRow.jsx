@@ -18,7 +18,7 @@ const CalendarRow = ({hourLabel, timeIdx, calendarMatrix, courseList}) => {
                     dayIdx={dayIdx} 
                     timeIdx={timeIdx} 
                     courseList={courseList}
-                    selected={Object.keys(calendarMatrix[timeIdx][dayIdx])}
+                    selected={calendarMatrix[timeIdx][dayIdx]}
                   />
                 }
               </div>

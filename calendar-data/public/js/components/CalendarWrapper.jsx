@@ -8,7 +8,7 @@ class CalendarWrapper extends React.Component {
   constructor(props) {
     super(props);
     // bind this to method
-    this.onSelectCourse = this.onSelectCourse.bind(this);
+    this.onSelectRemoveCourse = this.onSelectRemoveCourse.bind(this);
     // Initialize the calendar 2d matrix
     const calendarMatrix = [];
     for (let i = 0; i < 24; i++) {
@@ -36,7 +36,7 @@ class CalendarWrapper extends React.Component {
       callback(jsonObj.courses);
     }) 
   }
-  onSelectCourse(courseId) {
+  onSelectRemoveCourse(courseId) {
     const calendarMatrix = this.state.calendarMatrix;
     const newSelectedCourses = Object.assign({}, this.state.selectedCourses);
     const courseObj = this.state.courseList[courseId];
@@ -44,15 +44,21 @@ class CalendarWrapper extends React.Component {
     const courseDayIdx = courseObj.dayIndex;
     let newCalendarMatrix = [...calendarMatrix];
     let timeIdx = courseTimeIdx[0];
-    let endTime = courseTimeIdx[courseTimeIdx.length - 1]
+    const endTime = courseTimeIdx[courseTimeIdx.length - 1]
     for (;timeIdx < endTime; timeIdx++) {
       courseDayIdx.forEach(dayIdx => {
-        if (calendarMatrix[timeIdx][dayIdx]) {
-          console.log('Oh oh there\'s a conflict!');
-          newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$merge: {[courseId]: true}}}});
+        if (this.state.selectedCourses[courseId]) {
+          delete newSelectedCourses[courseId];
+          const targetIdx = newCalendarMatrix[timeIdx][dayIdx].indexOf(courseId);
+          newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$splice: [[targetIdx, 1]]}}});
         } else {
-          newSelectedCourses[courseId] = true;
-          newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$set: {[courseId]: true}}}});
+          if (calendarMatrix[timeIdx][dayIdx] && calendarMatrix[timeIdx][dayIdx].length) {
+            console.log('Oh oh there\'s a conflict!');
+            newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$push: [courseId]}}});
+          } else {
+            newSelectedCourses[courseId] = true;
+            newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$set: [courseId]}}});
+          }
         }
       });
     }    
@@ -74,8 +80,7 @@ class CalendarWrapper extends React.Component {
           <div className='calendarContent'>
             <CourseCatalog
               courseList={this.state.courseList}
-              onSelectCourse={this.onSelectCourse}
-              onRemoveCourse={this.onRemoveCourse}
+              onSelectRemoveCourse={this.onSelectRemoveCourse}
               selectedCourses={this.state.selectedCourses}
             />
             <Calendar 

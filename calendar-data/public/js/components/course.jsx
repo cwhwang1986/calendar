@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Course = ({courseObj, onSelectCourse, onRemoveCourse, isSelected}) => {
+const Course = ({courseObj, onSelectRemoveCourse, isSelected}) => {
   const courseButtonText = isSelected ? 'Unselect' : 'Select';
   const time = courseObj.time.join(' - ');
   const days = courseObj.days.map(day => day.substr(0, 3)).join('/');
@@ -22,11 +22,7 @@ const Course = ({courseObj, onSelectCourse, onRemoveCourse, isSelected}) => {
         className='primary courseSelectButton'
         onClick={event => {
           event.stopPropagation();
-          if (isSelected) {
-            onRemoveCourse(courseObj.id);
-          } else {
-            onSelectCourse(courseObj.id);
-          }
+          onSelectRemoveCourse(courseObj.id);
         }}
         onMouseUp={event=>{
           event.stopPropagation();
