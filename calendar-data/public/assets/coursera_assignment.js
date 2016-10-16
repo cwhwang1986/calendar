@@ -29488,9 +29488,9 @@
 	              console.log('Oh oh there\'s a conflict!');
 	              newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $push: [courseId] })));
 	            } else {
-	              newSelectedCourses[courseId] = true;
 	              newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $set: [courseId] })));
 	            }
+	            newSelectedCourses[courseId] = true;
 	          }
 	        });
 	      }
@@ -29946,8 +29946,8 @@
 	        var style = {
 	          height: height,
 	          width: 'calc(100%/' + selected.length + ')',
-	          background: colorHex[idx % 5],
-	          border: '1px solid ' + borderColorHex[idx % 5]
+	          background: colorHex[courseId % 5],
+	          border: '1px solid ' + borderColorHex[courseId % 5]
 	        };
 	        return _react2.default.createElement(
 	          'div',

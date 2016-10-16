@@ -12,8 +12,8 @@ const CalendarCell = ({dayIdx, timeIdx, courseList, selected}) => {
             const style = {
               height,
               width: `calc(100%/${selected.length})`,
-              background: colorHex[idx%5],
-              border: `1px solid ${borderColorHex[idx%5]}`,
+              background: colorHex[courseId%5],
+              border: `1px solid ${borderColorHex[courseId%5]}`,
             };
             return (
               <div 

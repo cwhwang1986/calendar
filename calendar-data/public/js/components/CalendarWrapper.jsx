@@ -56,9 +56,9 @@ class CalendarWrapper extends React.Component {
             console.log('Oh oh there\'s a conflict!');
             newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$push: [courseId]}}});
           } else {
-            newSelectedCourses[courseId] = true;
             newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$set: [courseId]}}});
           }
+          newSelectedCourses[courseId] = true;
         }
       });
     }    
