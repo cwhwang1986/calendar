@@ -1,5 +1,7 @@
 import React from 'react';
+import Header from './Header';
 import CourseCatalog from './CourseCatalog';
+import Calendar from './Calendar';
 
 class CalendarWrapper extends React.Component {
   constructor(props) {
@@ -10,8 +12,16 @@ class CalendarWrapper extends React.Component {
   }
   render() {
     return (
-      <div style={{padding: 20}}>
-        <CourseCatalog/>
+      <div className='calendarWrapper'>
+        <div className='headerWrapper'>
+          <Header/>
+        </div>
+        <div className='contentWrapper'>
+          <div className='calendarContent'>
+            <CourseCatalog/>
+            <Calendar/>
+          </div>
+        </div>
       </div>
     );
   }	

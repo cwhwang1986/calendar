@@ -29396,9 +29396,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _CourseCatalog = __webpack_require__(470);
+	var _Header = __webpack_require__(470);
+	
+	var _Header2 = _interopRequireDefault(_Header);
+	
+	var _CourseCatalog = __webpack_require__(471);
 	
 	var _CourseCatalog2 = _interopRequireDefault(_CourseCatalog);
+	
+	var _Calendar = __webpack_require__(473);
+	
+	var _Calendar2 = _interopRequireDefault(_Calendar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29427,8 +29435,22 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { style: { padding: 20 } },
-	        _react2.default.createElement(_CourseCatalog2.default, null)
+	        { className: 'calendarWrapper' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'headerWrapper' },
+	          _react2.default.createElement(_Header2.default, null)
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'contentWrapper' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'calendarContent' },
+	            _react2.default.createElement(_CourseCatalog2.default, null),
+	            _react2.default.createElement(_Calendar2.default, null)
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -29453,7 +29475,36 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Course = __webpack_require__(471);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Header = function Header() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'header' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'courseraLogoWrapper' },
+	      _react2.default.createElement('img', { src: '../../img/coursera-logo.svg', className: 'courseraLogo', alt: 'Coursera' })
+	    )
+	  );
+	};
+	exports.default = Header;
+
+/***/ },
+/* 471 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Course = __webpack_require__(472);
 	
 	var _Course2 = _interopRequireDefault(_Course);
 	
@@ -29466,7 +29517,7 @@
 	
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'courseCatalog', style: { width: 200, border: '1px solid lightgrey' } },
+	    { className: 'courseCatalog' },
 	    false && courseList.map(function (courseObj, idx) {
 	      return _react2.default.createElement(_Course2.default, {
 	        key: idx + '-' + courseObj.name,
@@ -29481,7 +29532,7 @@
 	exports.default = CourseCatalog;
 
 /***/ },
-/* 471 */
+/* 472 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29513,6 +29564,168 @@
 	    )
 	  );
 	};
+
+/***/ },
+/* 473 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _CalendarLabel = __webpack_require__(474);
+	
+	var _CalendarLabel2 = _interopRequireDefault(_CalendarLabel);
+	
+	var _CalendarRows = __webpack_require__(475);
+	
+	var _CalendarRows2 = _interopRequireDefault(_CalendarRows);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Calendar = function (_React$Component) {
+	  _inherits(Calendar, _React$Component);
+	
+	  function Calendar(props) {
+	    _classCallCheck(this, Calendar);
+	
+	    return _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props));
+	  }
+	
+	  _createClass(Calendar, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'calendar' },
+	        _react2.default.createElement(_CalendarLabel2.default, null),
+	        _react2.default.createElement(_CalendarRows2.default, null)
+	      );
+	    }
+	  }]);
+	
+	  return Calendar;
+	}(_react2.default.Component);
+	
+	;
+	exports.default = Calendar;
+
+/***/ },
+/* 474 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CalendarLabel = function CalendarLabel() {
+	  var weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'calendarLabels' },
+	    weekDays.map(function (weekday, idx) {
+	      var className = !idx ? 'timeColumn' : 'dayColumn';
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'weekdayLabel ' + className, key: idx + weekday },
+	        weekday
+	      );
+	    })
+	  );
+	};
+	exports.default = CalendarLabel;
+
+/***/ },
+/* 475 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _CalendarRow = __webpack_require__(476);
+	
+	var _CalendarRow2 = _interopRequireDefault(_CalendarRow);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CalendarRows = function CalendarRows() {
+	  var hours = ['12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm'];
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'calendarRows' },
+	    hours.map(function (hourLabel, idx) {
+	      return _react2.default.createElement(_CalendarRow2.default, { key: idx + hourLabel, hourLabel: hourLabel });
+	    })
+	  );
+	};
+	exports.default = CalendarRows;
+
+/***/ },
+/* 476 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CalendarRow = function CalendarRow(_ref) {
+	  var hourLabel = _ref.hourLabel;
+	
+	  var weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'calendarRow' },
+	    weekDays.map(function (weekday, idx) {
+	      if (!idx) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'weekdayLabel timeColumn', key: idx + weekday },
+	          hourLabel
+	        );
+	      } else {
+	        return _react2.default.createElement('div', { className: 'weekdayLabel dayColumn', key: idx + weekday });
+	      }
+	    })
+	  );
+	};
+	exports.default = CalendarRow;
 
 /***/ }
 /******/ ]);

@@ -3,7 +3,7 @@ import Course from './Course'
 
 const CourseCatalog = ({courseList, selectOrRemove, selectedCourses}) => {
   return (
-    <div className='courseCatalog' style={{width: 200, border: '1px solid lightgrey'}}>
+    <div className='courseCatalog'>
       {
         false &&
         courseList.map((courseObj, idx) => {
