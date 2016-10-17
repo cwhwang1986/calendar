@@ -8,6 +8,7 @@ import WarningMessage from './WarningMessage';
 class PageWrapper extends React.Component {
   constructor(props) {
     super(props);
+    this.modifyCalendarName = this.modifyCalendarName.bind(this);
     this.closeWarningMessage = this.closeWarningMessage.bind(this);
     this.onSelectRemoveCourse = this.onSelectRemoveCourse.bind(this);
     // Initialize the calendar 2d matrix
@@ -74,11 +75,14 @@ class PageWrapper extends React.Component {
   closeWarningMessage() {
     this.setState({conflictCourses: {}});
   }
+  modifyCalendarName(calendarName) {
+    this.setState({calendarName});
+  }
   render() {
     return (
       <div className='pageWrapper'>
         <div className='headerWrapper'>
-          <Header/>
+          <Header modifyCalendarName={this.modifyCalendarName}/>
         </div>
         <div className='calendarWrapper'>
           <div className='calendarContent'>

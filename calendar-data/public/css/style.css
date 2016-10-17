@@ -48,12 +48,33 @@ button.primary:focus {
     margin: 0 auto;
     max-width: 1200px;
     background: white;
+    position: relative;
 }
 .header .courseraLogoWrapper {
+    width: 200px;
     padding-top: 5px;
+    display: inline-block;
 }
 .header .courseraLogo {
     height: 20px;
+}
+.header .calendarNameWrapper {
+    top: 20px;
+    right: 0;
+    height: 30px;
+    min-width: 200px;
+    position: absolute;
+}
+.header .calendarName {
+    border: none;
+    height: 100%;
+    font-size: 16px;
+    text-align: right;
+    padding-left: 10px;
+}
+.header .calendarName:focus {
+    outline: none;
+    border-bottom: 2px solid #629de0;
 }
 .calendarWrapper {
     position: relative;

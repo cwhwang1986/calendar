@@ -29433,6 +29433,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, (PageWrapper.__proto__ || Object.getPrototypeOf(PageWrapper)).call(this, props));
 	
+	    _this.modifyCalendarName = _this.modifyCalendarName.bind(_this);
 	    _this.closeWarningMessage = _this.closeWarningMessage.bind(_this);
 	    _this.onSelectRemoveCourse = _this.onSelectRemoveCourse.bind(_this);
 	    // Initialize the calendar 2d matrix
@@ -29514,6 +29515,11 @@
 	      this.setState({ conflictCourses: {} });
 	    }
 	  }, {
+	    key: 'modifyCalendarName',
+	    value: function modifyCalendarName(calendarName) {
+	      this.setState({ calendarName: calendarName });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -29522,7 +29528,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'headerWrapper' },
-	          _react2.default.createElement(_Header2.default, null)
+	          _react2.default.createElement(_Header2.default, { modifyCalendarName: this.modifyCalendarName })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -29573,7 +29579,10 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Header = function Header() {
+	var Header = function Header(_ref) {
+	  var modifyCalendarName = _ref.modifyCalendarName;
+	  var calendarName = _ref.calendarName;
+	
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'header' },
@@ -29581,6 +29590,21 @@
 	      'div',
 	      { className: 'courseraLogoWrapper' },
 	      _react2.default.createElement('img', { src: '../../img/coursera-logo.svg', className: 'courseraLogo', alt: 'Coursera' })
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'calendarNameWrapper' },
+	      _react2.default.createElement('input', {
+	        value: calendarName,
+	        className: 'calendarName',
+	        placeholder: 'Enter Calendar Name',
+	        onChange: function onChange(event) {
+	          return modifyCalendarName(event.target.value);
+	        },
+	        onKeyPress: function onKeyPress(event) {
+	          return event.key === 'Enter' && event.target.blur();
+	        }
+	      })
 	    )
 	  );
 	};
@@ -29640,7 +29664,6 @@
 	          _react2.default.createElement('input', {
 	            className: 'courseSearch',
 	            placeholder: 'Search Course'
-	
 	          })
 	        ),
 	        _react2.default.createElement(

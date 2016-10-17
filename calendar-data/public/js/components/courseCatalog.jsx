@@ -13,7 +13,6 @@ class CourseCatalog extends React.Component {
           <input 
             className='courseSearch'
             placeholder='Search Course'
-
           />
         </div>
         <div className='coursesWrapper'>
