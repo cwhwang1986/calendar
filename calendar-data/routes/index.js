@@ -5,7 +5,7 @@ var router = express.Router();
 var _ = require('underscore');
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
-var CalendarWrapper = React.createFactory(require('../public/js/components/CalendarWrapper').default);
+var PageWrapper = React.createFactory(require('../public/js/components/PageWrapper').default);
 /* GET home page. */
 function formatTime(time) {
   if (time < 12) {
@@ -42,9 +42,9 @@ var dayFormat = {
 
 
 router.get('/', function(req, res) {
-  var calendarWrapperHtml = ReactDOMServer.renderToString(CalendarWrapper({name: 'server props'}));
+  var pageWrapperHtml = ReactDOMServer.renderToString(PageWrapper());
   res.render('index', {
-    reactServerSideOutput: calendarWrapperHtml
+    reactServerSideOutput: pageWrapperHtml
   });
 });
 

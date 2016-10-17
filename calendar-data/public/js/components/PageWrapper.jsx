@@ -1,13 +1,14 @@
 import React from 'react';
 import Header from './Header';
-import CourseCatalog from './CourseCatalog';
 import Calendar from './Calendar';
 import update from 'react-addons-update';
+import CourseCatalog from './CourseCatalog';
+import WarningMessage from './WarningMessage';
 
-class CalendarWrapper extends React.Component {
+class PageWrapper extends React.Component {
   constructor(props) {
     super(props);
-    // bind this to method
+    this.closeWarningMessage = this.closeWarningMessage.bind(this);
     this.onSelectRemoveCourse = this.onSelectRemoveCourse.bind(this);
     // Initialize the calendar 2d matrix
     const calendarMatrix = [];
@@ -19,7 +20,8 @@ class CalendarWrapper extends React.Component {
       courseList: [],
       calendarName: '',
       selectedCourses: {},
-      calendarMatrix
+      calendarMatrix,
+      conflictCourses: {},
     };
   } 
   componentDidMount() {
@@ -42,6 +44,7 @@ class CalendarWrapper extends React.Component {
     const courseObj = this.state.courseList[courseId];
     const courseTimeIdx = courseObj.timeIndex;
     const courseDayIdx = courseObj.dayIndex;
+    const conflictCourses = {selectCourseName: courseObj.name};
     let newCalendarMatrix = [...calendarMatrix];
     let timeIdx = courseTimeIdx[0];
     const endTime = courseTimeIdx[courseTimeIdx.length - 1]
@@ -53,7 +56,7 @@ class CalendarWrapper extends React.Component {
           newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$splice: [[targetIdx, 1]]}}});
         } else {
           if (calendarMatrix[timeIdx][dayIdx] && calendarMatrix[timeIdx][dayIdx].length) {
-            console.log('Oh oh there\'s a conflict!');
+            conflictCourses.conflicts = calendarMatrix[timeIdx][dayIdx].map(courseId => this.state.courseList[courseId].name);
             newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$push: [courseId]}}});
           } else {
             newCalendarMatrix = update(newCalendarMatrix, {[timeIdx]: {[dayIdx]: {$set: [courseId]}}});
@@ -64,16 +67,20 @@ class CalendarWrapper extends React.Component {
     }    
     this.setState({
       calendarMatrix: newCalendarMatrix,
-      selectedCourses: newSelectedCourses
+      selectedCourses: newSelectedCourses,
+      conflictCourses,
     });
+  }
+  closeWarningMessage() {
+    this.setState({conflictCourses: {}});
   }
   render() {
     return (
-      <div className='calendarWrapper'>
+      <div className='pageWrapper'>
         <div className='headerWrapper'>
           <Header/>
         </div>
-        <div className='contentWrapper'>
+        <div className='calendarWrapper'>
           <div className='calendarContent'>
             <CourseCatalog
               courseList={this.state.courseList}
@@ -86,10 +93,17 @@ class CalendarWrapper extends React.Component {
               selectedCourses={this.state.selectedCourses}
               onSelectRemoveCourse={this.onSelectRemoveCourse}
             />
+            {
+              this.state.conflictCourses.conflicts &&
+              <WarningMessage 
+                conflictCourses={this.state.conflictCourses}
+                closeWarningMessage={this.closeWarningMessage}
+              />
+            }
           </div>
         </div>
       </div>
     );
   }	
 };
-export default CalendarWrapper;
+export default PageWrapper;

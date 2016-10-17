@@ -36,7 +36,7 @@ button.primary:focus {
     color: white;
     background: #629de0;
 }
-.calendarWrapper {
+.pageWrapper {
     height: 100%;
 }
 .headerWrapper {
@@ -55,9 +55,10 @@ button.primary:focus {
 .header .courseraLogo {
     height: 20px;
 }
-.contentWrapper {
-    height: calc(100% - 60px);
+.calendarWrapper {
+    position: relative;
     background: #ebebeb;
+    height: calc(100% - 60px);
 }
 .calendarContent {
     height: 100%;
@@ -192,7 +193,6 @@ button.primary:focus {
 .calendarContent .calendar .cellContent {
     float: left;
     padding: 2px;
-    cursor: pointer;
     font-size: 10px;
     overflow: hidden;
     line-height: 13px;
@@ -212,11 +212,28 @@ button.primary:focus {
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px #333;
 }
-.calendarContent .calendar .courseSetting .closePopUpIcon {
+.closePopUpIcon {
     top: 5px;
     right: 10px;
     cursor: pointer;
     position: absolute;
 }
-
-
+/* warning message */
+.warningMessage {
+    top: 0;
+    padding: 15px 30px;
+    width: 100%;
+    margin: 0 auto;
+    opacity: 0.9;
+    max-width: 1200px;
+    position: absolute;
+    background: #fdf7fa;
+    border: 1px solid #ffac7f;
+    color: #f43c3c;
+    font-weight: 200;
+    font-size: 13px;
+    font-family: 'OpenSans', Arial,sans-serif;
+}
+.warningMessage .boldWarning {
+    font-weight: 600;
+}

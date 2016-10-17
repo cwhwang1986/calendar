@@ -1,10 +1,10 @@
 'use strict'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CalendarWrapper from './components/CalendarWrapper';
+import PageWrapper from './components/PageWrapper';
 
 const mountNode = document.querySelector('#container');
 ReactDOM.render(
-	<CalendarWrapper/>,
+	<PageWrapper/>,
 	mountNode
 );

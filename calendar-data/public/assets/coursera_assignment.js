@@ -8187,14 +8187,14 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _CalendarWrapper = __webpack_require__(469);
+	var _PageWrapper = __webpack_require__(469);
 	
-	var _CalendarWrapper2 = _interopRequireDefault(_CalendarWrapper);
+	var _PageWrapper2 = _interopRequireDefault(_PageWrapper);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mountNode = document.querySelector('#container');
-	_reactDom2.default.render(_react2.default.createElement(_CalendarWrapper2.default, null), mountNode);
+	_reactDom2.default.render(_react2.default.createElement(_PageWrapper2.default, null), mountNode);
 
 /***/ },
 /* 299 */
@@ -29397,17 +29397,21 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _CourseCatalog = __webpack_require__(471);
-	
-	var _CourseCatalog2 = _interopRequireDefault(_CourseCatalog);
-	
 	var _Calendar = __webpack_require__(473);
 	
 	var _Calendar2 = _interopRequireDefault(_Calendar);
 	
-	var _reactAddonsUpdate = __webpack_require__(478);
+	var _reactAddonsUpdate = __webpack_require__(479);
 	
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
+	
+	var _CourseCatalog = __webpack_require__(471);
+	
+	var _CourseCatalog2 = _interopRequireDefault(_CourseCatalog);
+	
+	var _WarningMessage = __webpack_require__(481);
+	
+	var _WarningMessage2 = _interopRequireDefault(_WarningMessage);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29421,15 +29425,15 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var CalendarWrapper = function (_React$Component) {
-	  _inherits(CalendarWrapper, _React$Component);
+	var PageWrapper = function (_React$Component) {
+	  _inherits(PageWrapper, _React$Component);
 	
-	  function CalendarWrapper(props) {
-	    _classCallCheck(this, CalendarWrapper);
+	  function PageWrapper(props) {
+	    _classCallCheck(this, PageWrapper);
 	
-	    // bind this to method
-	    var _this = _possibleConstructorReturn(this, (CalendarWrapper.__proto__ || Object.getPrototypeOf(CalendarWrapper)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (PageWrapper.__proto__ || Object.getPrototypeOf(PageWrapper)).call(this, props));
 	
+	    _this.closeWarningMessage = _this.closeWarningMessage.bind(_this);
 	    _this.onSelectRemoveCourse = _this.onSelectRemoveCourse.bind(_this);
 	    // Initialize the calendar 2d matrix
 	    var calendarMatrix = [];
@@ -29441,12 +29445,13 @@
 	      courseList: [],
 	      calendarName: '',
 	      selectedCourses: {},
-	      calendarMatrix: calendarMatrix
+	      calendarMatrix: calendarMatrix,
+	      conflictCourses: {}
 	    };
 	    return _this;
 	  }
 	
-	  _createClass(CalendarWrapper, [{
+	  _createClass(PageWrapper, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
@@ -29474,6 +29479,7 @@
 	      var courseObj = this.state.courseList[courseId];
 	      var courseTimeIdx = courseObj.timeIndex;
 	      var courseDayIdx = courseObj.dayIndex;
+	      var conflictCourses = { selectCourseName: courseObj.name };
 	      var newCalendarMatrix = [].concat(_toConsumableArray(calendarMatrix));
 	      var timeIdx = courseTimeIdx[0];
 	      var endTime = courseTimeIdx[courseTimeIdx.length - 1];
@@ -29485,7 +29491,9 @@
 	            newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $splice: [[targetIdx, 1]] })));
 	          } else {
 	            if (calendarMatrix[timeIdx][dayIdx] && calendarMatrix[timeIdx][dayIdx].length) {
-	              console.log('Oh oh there\'s a conflict!');
+	              conflictCourses.conflicts = calendarMatrix[timeIdx][dayIdx].map(function (courseId) {
+	                return _this3.state.courseList[courseId].name;
+	              });
 	              newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $push: [courseId] })));
 	            } else {
 	              newCalendarMatrix = (0, _reactAddonsUpdate2.default)(newCalendarMatrix, _defineProperty({}, timeIdx, _defineProperty({}, dayIdx, { $set: [courseId] })));
@@ -29496,15 +29504,21 @@
 	      }
 	      this.setState({
 	        calendarMatrix: newCalendarMatrix,
-	        selectedCourses: newSelectedCourses
+	        selectedCourses: newSelectedCourses,
+	        conflictCourses: conflictCourses
 	      });
+	    }
+	  }, {
+	    key: 'closeWarningMessage',
+	    value: function closeWarningMessage() {
+	      this.setState({ conflictCourses: {} });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'calendarWrapper' },
+	        { className: 'pageWrapper' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'headerWrapper' },
@@ -29512,7 +29526,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'contentWrapper' },
+	          { className: 'calendarWrapper' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'calendarContent' },
@@ -29526,6 +29540,10 @@
 	              calendarMatrix: this.state.calendarMatrix,
 	              selectedCourses: this.state.selectedCourses,
 	              onSelectRemoveCourse: this.onSelectRemoveCourse
+	            }),
+	            this.state.conflictCourses.conflicts && _react2.default.createElement(_WarningMessage2.default, {
+	              conflictCourses: this.state.conflictCourses,
+	              closeWarningMessage: this.closeWarningMessage
 	            })
 	          )
 	        )
@@ -29533,11 +29551,11 @@
 	    }
 	  }]);
 	
-	  return CalendarWrapper;
+	  return PageWrapper;
 	}(_react2.default.Component);
 	
 	;
-	exports.default = CalendarWrapper;
+	exports.default = PageWrapper;
 
 /***/ },
 /* 470 */
@@ -29753,7 +29771,7 @@
 	
 	var _CalendarRows2 = _interopRequireDefault(_CalendarRows);
 	
-	var _CourseSetting = __webpack_require__(480);
+	var _CourseSetting = __webpack_require__(478);
 	
 	var _CourseSetting2 = _interopRequireDefault(_CourseSetting);
 	
@@ -30029,10 +30047,59 @@
 /* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(479);
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Course = __webpack_require__(472);
+	
+	var _Course2 = _interopRequireDefault(_Course);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CourseSetting = function CourseSetting(_ref) {
+	  var courseObj = _ref.courseObj;
+	  var popUpPosition = _ref.popUpPosition;
+	  var closeCourseSetting = _ref.closeCourseSetting;
+	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
+	
+	  var courseLength = courseObj.timeIndex[1] - courseObj.timeIndex[0];
+	  var top = popUpPosition[0] < 180 ? popUpPosition[0] + courseLength * 50 + 10 : popUpPosition[0] - 160;
+	  var left = popUpPosition[1] - 40;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'courseSetting', style: { top: top, left: left } },
+	    _react2.default.createElement(
+	      'span',
+	      {
+	        className: 'closePopUpIcon',
+	        onClick: closeCourseSetting
+	      },
+	      'X'
+	    ),
+	    _react2.default.createElement(_Course2.default, {
+	      courseObj: courseObj,
+	      onSelectRemoveCourse: onSelectRemoveCourse,
+	      isSelected: true
+	    })
+	  );
+	};
+	exports.default = CourseSetting;
 
 /***/ },
 /* 479 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(480);
+
+/***/ },
+/* 480 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -30151,7 +30218,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
 
 /***/ },
-/* 480 */
+/* 481 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30164,40 +30231,36 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Course = __webpack_require__(472);
-	
-	var _Course2 = _interopRequireDefault(_Course);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var CourseSetting = function CourseSetting(_ref) {
-	  var courseObj = _ref.courseObj;
-	  var popUpPosition = _ref.popUpPosition;
-	  var closeCourseSetting = _ref.closeCourseSetting;
-	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
+	var WarningMessage = function WarningMessage(_ref) {
+	  var conflictCourses = _ref.conflictCourses;
+	  var closeWarningMessage = _ref.closeWarningMessage;
 	
-	  var courseLength = courseObj.timeIndex[1] - courseObj.timeIndex[0];
-	  var top = popUpPosition[0] < 180 ? popUpPosition[0] + courseLength * 50 + 10 : popUpPosition[0] - 160;
-	  var left = popUpPosition[1] - 40;
+	  var conflictsName = conflictCourses.conflicts.join(', ');
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'courseSetting', style: { top: top, left: left } },
+	    { className: 'warningMessage' },
 	    _react2.default.createElement(
 	      'span',
-	      {
-	        className: 'closePopUpIcon',
-	        onClick: closeCourseSetting
-	      },
+	      { className: 'closePopUpIcon', onClick: closeWarningMessage },
 	      'X'
 	    ),
-	    _react2.default.createElement(_Course2.default, {
-	      courseObj: courseObj,
-	      onSelectRemoveCourse: onSelectRemoveCourse,
-	      isSelected: true
-	    })
+	    'You have course time conflict on your schedule. Course\xA0',
+	    _react2.default.createElement(
+	      'span',
+	      { className: 'boldWarning' },
+	      conflictCourses.selectCourseName
+	    ),
+	    '\xA0is conflict with\xA0',
+	    _react2.default.createElement(
+	      'span',
+	      { className: 'boldWarning' },
+	      conflictsName + '.'
+	    )
 	  );
 	};
-	exports.default = CourseSetting;
+	exports.default = WarningMessage;
 
 /***/ }
 /******/ ]);
