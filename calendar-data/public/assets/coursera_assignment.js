@@ -29397,15 +29397,15 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _Calendar = __webpack_require__(473);
+	var _Calendar = __webpack_require__(471);
 	
 	var _Calendar2 = _interopRequireDefault(_Calendar);
 	
-	var _reactAddonsUpdate = __webpack_require__(479);
+	var _reactAddonsUpdate = __webpack_require__(478);
 	
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 	
-	var _CourseCatalog = __webpack_require__(471);
+	var _CourseCatalog = __webpack_require__(480);
 	
 	var _CourseCatalog2 = _interopRequireDefault(_CourseCatalog);
 	
@@ -29620,15 +29620,25 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(299);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Course = __webpack_require__(472);
+	var _CalendarLabel = __webpack_require__(472);
 	
-	var _Course2 = _interopRequireDefault(_Course);
+	var _CalendarLabel2 = _interopRequireDefault(_CalendarLabel);
+	
+	var _CalendarRows = __webpack_require__(473);
+	
+	var _CalendarRows2 = _interopRequireDefault(_CalendarRows);
+	
+	var _CourseSetting = __webpack_require__(476);
+	
+	var _CourseSetting2 = _interopRequireDefault(_CourseSetting);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29638,58 +29648,317 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var CourseCatalog = function (_React$Component) {
-	  _inherits(CourseCatalog, _React$Component);
+	var Calendar = function (_React$Component) {
+	  _inherits(Calendar, _React$Component);
 	
-	  function CourseCatalog(props) {
-	    _classCallCheck(this, CourseCatalog);
+	  function Calendar(props) {
+	    _classCallCheck(this, Calendar);
 	
-	    return _possibleConstructorReturn(this, (CourseCatalog.__proto__ || Object.getPrototypeOf(CourseCatalog)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props));
+	
+	    _this.showCourseSetting = _this.showCourseSetting.bind(_this);
+	    _this.closeCourseSetting = _this.closeCourseSetting.bind(_this);
+	    _this.state = {
+	      courseSetting: null,
+	      popUpPosition: []
+	    };
+	    return _this;
 	  }
 	
-	  _createClass(CourseCatalog, [{
+	  _createClass(Calendar, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (this.state.courseSetting && !newProps.selectedCourses[this.state.courseSetting.id]) {
+	        this.setState({ courseSetting: null, popUpPosition: [] });
+	      }
+	    }
+	  }, {
+	    key: 'showCourseSetting',
+	    value: function showCourseSetting(courseId, top, left) {
+	      this.setState({ courseSetting: this.props.courseList[courseId], popUpPosition: [top, left] });
+	    }
+	  }, {
+	    key: 'closeCourseSetting',
+	    value: function closeCourseSetting() {
+	      this.setState({ courseSetting: null, popUpPosition: [] });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _props = this.props;
-	      var courseList = _props.courseList;
-	      var onSelectRemoveCourse = _props.onSelectRemoveCourse;
-	      var selectedCourses = _props.selectedCourses;
-	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'courseCatalog' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'searchWrapper' },
-	          _react2.default.createElement('input', {
-	            className: 'courseSearch',
-	            placeholder: 'Search Course'
-	          })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'coursesWrapper' },
-	          courseList.length && courseList.map(function (courseObj, idx) {
-	            return _react2.default.createElement(_Course2.default, {
-	              key: idx + '-' + courseObj.name,
-	              courseObj: courseObj,
-	              isSelected: !!selectedCourses[courseObj.id],
-	              onSelectRemoveCourse: onSelectRemoveCourse
-	            });
-	          })
-	        )
+	        { className: 'calendar' },
+	        _react2.default.createElement(_CalendarLabel2.default, null),
+	        _react2.default.createElement(_CalendarRows2.default, _extends({}, this.props, { showCourseSetting: this.showCourseSetting })),
+	        this.state.courseSetting && _react2.default.createElement(_CourseSetting2.default, {
+	          courseObj: this.state.courseSetting,
+	          popUpPosition: this.state.popUpPosition,
+	          closeCourseSetting: this.closeCourseSetting,
+	          onSelectRemoveCourse: this.props.onSelectRemoveCourse
+	        })
 	      );
 	    }
 	  }]);
 	
-	  return CourseCatalog;
+	  return Calendar;
 	}(_react2.default.Component);
 	
 	;
-	exports.default = CourseCatalog;
+	exports.default = Calendar;
 
 /***/ },
 /* 472 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CalendarLabel = function CalendarLabel() {
+	  var weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'calendarLabels' },
+	    weekDays.map(function (weekday, idx) {
+	      var className = !idx ? 'timeColumn' : 'dayColumn';
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'weekdayLabel ' + className, key: idx + weekday },
+	        weekday
+	      );
+	    })
+	  );
+	};
+	exports.default = CalendarLabel;
+
+/***/ },
+/* 473 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _CalendarRow = __webpack_require__(474);
+	
+	var _CalendarRow2 = _interopRequireDefault(_CalendarRow);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CalendarRows = function CalendarRows(props) {
+	  var hours = ['12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm'];
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'calendarRows' },
+	    hours.map(function (hourLabel, timeIdx) {
+	      return _react2.default.createElement(_CalendarRow2.default, {
+	        key: timeIdx + hourLabel,
+	        timeIdx: timeIdx,
+	        hourLabel: hourLabel,
+	        courseList: props.courseList,
+	        calendarMatrix: props.calendarMatrix,
+	        showCourseSetting: props.showCourseSetting,
+	        onSelectRemoveCourse: props.onSelectRemoveCourse
+	      });
+	    })
+	  );
+	};
+	exports.default = CalendarRows;
+
+/***/ },
+/* 474 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _CalendarCell = __webpack_require__(475);
+	
+	var _CalendarCell2 = _interopRequireDefault(_CalendarCell);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CalendarRow = function CalendarRow(_ref) {
+	  var hourLabel = _ref.hourLabel;
+	  var timeIdx = _ref.timeIdx;
+	  var calendarMatrix = _ref.calendarMatrix;
+	  var courseList = _ref.courseList;
+	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
+	  var showCourseSetting = _ref.showCourseSetting;
+	
+	  var weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'calendarRow' },
+	    weekDays.map(function (weekday, dayIdx) {
+	      if (!dayIdx) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'weekdayLabel timeColumn', key: dayIdx + weekday },
+	          hourLabel
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'weekdayLabel dayColumn', key: dayIdx + weekday },
+	          calendarMatrix[timeIdx][dayIdx] && _react2.default.createElement(_CalendarCell2.default, {
+	            dayIdx: dayIdx,
+	            timeIdx: timeIdx,
+	            courseList: courseList,
+	            showCourseSetting: showCourseSetting,
+	            selected: calendarMatrix[timeIdx][dayIdx],
+	            onSelectRemoveCourse: onSelectRemoveCourse
+	          })
+	        );
+	      }
+	    })
+	  );
+	};
+	exports.default = CalendarRow;
+
+/***/ },
+/* 475 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var colorHex = ['#84add0', '#d4bdab', '#d2cfd9', '#c5dbcf', '#9de7e3'];
+	var borderColorHex = ['#3277b2', '#b89173', '#a69fb4', '#9fc3af', '#3bcfc8'];
+	var CalendarCell = function CalendarCell(_ref) {
+	  var dayIdx = _ref.dayIdx;
+	  var timeIdx = _ref.timeIdx;
+	  var courseList = _ref.courseList;
+	  var selected = _ref.selected;
+	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
+	  var showCourseSetting = _ref.showCourseSetting;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'calendarCell' },
+	    selected.map(function (courseId, idx) {
+	      var courseTimeRange = courseList[courseId].timeIndex;
+	      var height = (courseTimeRange[courseTimeRange.length - 1] - timeIdx) * 50 - 1;
+	      var style = {
+	        height: height,
+	        width: 'calc(100%/' + selected.length + ')',
+	        background: colorHex[courseId % 5],
+	        border: '1px solid ' + borderColorHex[courseId % 5]
+	      };
+	      if (courseTimeRange[0] === timeIdx) {
+	        style['borderBottom'] = 'none';
+	        style['zIndex'] = 2;
+	      } else if (courseTimeRange[1] - 1 === timeIdx) {
+	        style['borderTop'] = 'none';
+	      } else {
+	        style['borderTop'] = style['borderBottom'] = 'none';
+	      }
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          key: courseId,
+	          style: style,
+	          className: 'cellContent',
+	          onClick: function onClick(event) {
+	            event.stopPropagation();
+	            if (courseTimeRange[0] !== timeIdx) return;
+	
+	            var _event$target$getBoun = event.target.getBoundingClientRect();
+	
+	            var top = _event$target$getBoun.top;
+	            var left = _event$target$getBoun.left;
+	
+	            showCourseSetting(courseId, top, left);
+	          }
+	        },
+	        courseTimeRange[0] === timeIdx ? courseList[courseId].name : ''
+	      );
+	    })
+	  );
+	};
+	exports.default = CalendarCell;
+
+/***/ },
+/* 476 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Course = __webpack_require__(477);
+	
+	var _Course2 = _interopRequireDefault(_Course);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CourseSetting = function CourseSetting(_ref) {
+	  var courseObj = _ref.courseObj;
+	  var popUpPosition = _ref.popUpPosition;
+	  var closeCourseSetting = _ref.closeCourseSetting;
+	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
+	
+	  var courseLength = courseObj.timeIndex[1] - courseObj.timeIndex[0];
+	  var top = popUpPosition[0] < 180 ? popUpPosition[0] + courseLength * 50 + 10 : popUpPosition[0] - 160;
+	  var left = popUpPosition[1] - 40;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'courseSetting', style: { top: top, left: left } },
+	    _react2.default.createElement(
+	      'span',
+	      {
+	        className: 'closePopUpIcon',
+	        onClick: closeCourseSetting
+	      },
+	      'X'
+	    ),
+	    _react2.default.createElement(_Course2.default, {
+	      courseObj: courseObj,
+	      onSelectRemoveCourse: onSelectRemoveCourse,
+	      isSelected: true
+	    })
+	  );
+	};
+	exports.default = CourseSetting;
+
+/***/ },
+/* 477 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29769,360 +30038,13 @@
 	exports.default = Course;
 
 /***/ },
-/* 473 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(299);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _CalendarLabel = __webpack_require__(474);
-	
-	var _CalendarLabel2 = _interopRequireDefault(_CalendarLabel);
-	
-	var _CalendarRows = __webpack_require__(475);
-	
-	var _CalendarRows2 = _interopRequireDefault(_CalendarRows);
-	
-	var _CourseSetting = __webpack_require__(478);
-	
-	var _CourseSetting2 = _interopRequireDefault(_CourseSetting);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Calendar = function (_React$Component) {
-	  _inherits(Calendar, _React$Component);
-	
-	  function Calendar(props) {
-	    _classCallCheck(this, Calendar);
-	
-	    var _this = _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props));
-	
-	    _this.showCourseSetting = _this.showCourseSetting.bind(_this);
-	    _this.closeCourseSetting = _this.closeCourseSetting.bind(_this);
-	    _this.state = {
-	      courseSetting: null,
-	      popUpPosition: []
-	    };
-	    return _this;
-	  }
-	
-	  _createClass(Calendar, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(newProps) {
-	      if (this.state.courseSetting && !newProps.selectedCourses[this.state.courseSetting.id]) {
-	        this.setState({ courseSetting: null, popUpPosition: [] });
-	      }
-	    }
-	  }, {
-	    key: 'showCourseSetting',
-	    value: function showCourseSetting(courseId, top, left) {
-	      this.setState({ courseSetting: this.props.courseList[courseId], popUpPosition: [top, left] });
-	    }
-	  }, {
-	    key: 'closeCourseSetting',
-	    value: function closeCourseSetting() {
-	      this.setState({ courseSetting: null, popUpPosition: [] });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'calendar' },
-	        _react2.default.createElement(_CalendarLabel2.default, null),
-	        _react2.default.createElement(_CalendarRows2.default, _extends({}, this.props, { showCourseSetting: this.showCourseSetting })),
-	        this.state.courseSetting && _react2.default.createElement(_CourseSetting2.default, {
-	          courseObj: this.state.courseSetting,
-	          popUpPosition: this.state.popUpPosition,
-	          closeCourseSetting: this.closeCourseSetting,
-	          onSelectRemoveCourse: this.props.onSelectRemoveCourse
-	        })
-	      );
-	    }
-	  }]);
-	
-	  return Calendar;
-	}(_react2.default.Component);
-	
-	;
-	exports.default = Calendar;
-
-/***/ },
-/* 474 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(299);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var CalendarLabel = function CalendarLabel() {
-	  var weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'calendarLabels' },
-	    weekDays.map(function (weekday, idx) {
-	      var className = !idx ? 'timeColumn' : 'dayColumn';
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'weekdayLabel ' + className, key: idx + weekday },
-	        weekday
-	      );
-	    })
-	  );
-	};
-	exports.default = CalendarLabel;
-
-/***/ },
-/* 475 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(299);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _CalendarRow = __webpack_require__(476);
-	
-	var _CalendarRow2 = _interopRequireDefault(_CalendarRow);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var CalendarRows = function CalendarRows(props) {
-	  var hours = ['12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm'];
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'calendarRows' },
-	    hours.map(function (hourLabel, timeIdx) {
-	      return _react2.default.createElement(_CalendarRow2.default, {
-	        key: timeIdx + hourLabel,
-	        timeIdx: timeIdx,
-	        hourLabel: hourLabel,
-	        courseList: props.courseList,
-	        calendarMatrix: props.calendarMatrix,
-	        showCourseSetting: props.showCourseSetting,
-	        onSelectRemoveCourse: props.onSelectRemoveCourse
-	      });
-	    })
-	  );
-	};
-	exports.default = CalendarRows;
-
-/***/ },
-/* 476 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(299);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _CalendarCell = __webpack_require__(477);
-	
-	var _CalendarCell2 = _interopRequireDefault(_CalendarCell);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var CalendarRow = function CalendarRow(_ref) {
-	  var hourLabel = _ref.hourLabel;
-	  var timeIdx = _ref.timeIdx;
-	  var calendarMatrix = _ref.calendarMatrix;
-	  var courseList = _ref.courseList;
-	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
-	  var showCourseSetting = _ref.showCourseSetting;
-	
-	  var weekDays = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'calendarRow' },
-	    weekDays.map(function (weekday, dayIdx) {
-	      if (!dayIdx) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'weekdayLabel timeColumn', key: dayIdx + weekday },
-	          hourLabel
-	        );
-	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'weekdayLabel dayColumn', key: dayIdx + weekday },
-	          calendarMatrix[timeIdx][dayIdx] && _react2.default.createElement(_CalendarCell2.default, {
-	            dayIdx: dayIdx,
-	            timeIdx: timeIdx,
-	            courseList: courseList,
-	            showCourseSetting: showCourseSetting,
-	            selected: calendarMatrix[timeIdx][dayIdx],
-	            onSelectRemoveCourse: onSelectRemoveCourse
-	          })
-	        );
-	      }
-	    })
-	  );
-	};
-	exports.default = CalendarRow;
-
-/***/ },
-/* 477 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(299);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var colorHex = ['#84add0', '#d4bdab', '#d2cfd9', '#c5dbcf', '#9de7e3'];
-	var borderColorHex = ['#3277b2', '#b89173', '#a69fb4', '#9fc3af', '#3bcfc8'];
-	var CalendarCell = function CalendarCell(_ref) {
-	  var dayIdx = _ref.dayIdx;
-	  var timeIdx = _ref.timeIdx;
-	  var courseList = _ref.courseList;
-	  var selected = _ref.selected;
-	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
-	  var showCourseSetting = _ref.showCourseSetting;
-	
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'calendarCell' },
-	    selected.map(function (courseId, idx) {
-	      var courseTimeRange = courseList[courseId].timeIndex;
-	      var height = (courseTimeRange[courseTimeRange.length - 1] - timeIdx) * 50 - 1;
-	      var style = {
-	        height: height,
-	        width: 'calc(100%/' + selected.length + ')',
-	        background: colorHex[courseId % 5],
-	        border: '1px solid ' + borderColorHex[courseId % 5]
-	      };
-	      if (courseTimeRange[0] === timeIdx) {
-	        style['borderBottom'] = 'none';
-	        style['zIndex'] = 2;
-	      } else if (courseTimeRange[1] - 1 === timeIdx) {
-	        style['borderTop'] = 'none';
-	      } else {
-	        style['borderTop'] = style['borderBottom'] = 'none';
-	      }
-	      return _react2.default.createElement(
-	        'div',
-	        {
-	          key: courseId,
-	          style: style,
-	          className: 'cellContent',
-	          onClick: function onClick(event) {
-	            event.stopPropagation();
-	            if (courseTimeRange[0] !== timeIdx) return;
-	
-	            var _event$target$getBoun = event.target.getBoundingClientRect();
-	
-	            var top = _event$target$getBoun.top;
-	            var left = _event$target$getBoun.left;
-	
-	            showCourseSetting(courseId, top, left);
-	          }
-	        },
-	        courseTimeRange[0] === timeIdx ? courseList[courseId].name : ''
-	      );
-	    })
-	  );
-	};
-	exports.default = CalendarCell;
-
-/***/ },
 /* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(299);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Course = __webpack_require__(472);
-	
-	var _Course2 = _interopRequireDefault(_Course);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var CourseSetting = function CourseSetting(_ref) {
-	  var courseObj = _ref.courseObj;
-	  var popUpPosition = _ref.popUpPosition;
-	  var closeCourseSetting = _ref.closeCourseSetting;
-	  var onSelectRemoveCourse = _ref.onSelectRemoveCourse;
-	
-	  var courseLength = courseObj.timeIndex[1] - courseObj.timeIndex[0];
-	  var top = popUpPosition[0] < 180 ? popUpPosition[0] + courseLength * 50 + 10 : popUpPosition[0] - 160;
-	  var left = popUpPosition[1] - 40;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'courseSetting', style: { top: top, left: left } },
-	    _react2.default.createElement(
-	      'span',
-	      {
-	        className: 'closePopUpIcon',
-	        onClick: closeCourseSetting
-	      },
-	      'X'
-	    ),
-	    _react2.default.createElement(_Course2.default, {
-	      courseObj: courseObj,
-	      onSelectRemoveCourse: onSelectRemoveCourse,
-	      isSelected: true
-	    })
-	  );
-	};
-	exports.default = CourseSetting;
+	module.exports = __webpack_require__(479);
 
 /***/ },
 /* 479 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(480);
-
-/***/ },
-/* 480 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -30239,6 +30161,127 @@
 	
 	module.exports = update;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(294)))
+
+/***/ },
+/* 480 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Course = __webpack_require__(477);
+	
+	var _Course2 = _interopRequireDefault(_Course);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CourseCatalog = function (_React$Component) {
+	  _inherits(CourseCatalog, _React$Component);
+	
+	  function CourseCatalog(props) {
+	    _classCallCheck(this, CourseCatalog);
+	
+	    var _this = _possibleConstructorReturn(this, (CourseCatalog.__proto__ || Object.getPrototypeOf(CourseCatalog)).call(this, props));
+	
+	    _this.state = {
+	      temperaryCourseList: [].concat(_toConsumableArray(_this.props.courseList))
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(CourseCatalog, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      this.refs.courseSearchBox.value = '';
+	      this.setState({ temperaryCourseList: [].concat(_toConsumableArray(newProps.courseList)) });
+	    }
+	  }, {
+	    key: 'onSearchCourse',
+	    value: function onSearchCourse(queryString) {
+	      if (!queryString) {
+	        this.setState({ temperaryCourseList: [].concat(_toConsumableArray(this.props.courseList)) });
+	        return;
+	      }
+	      var prefixMatch = [];
+	      var substringMatch = [];
+	      this.props.courseList.forEach(function (courseObj) {
+	        if (queryString === courseObj.name.substr(0, queryString.length)) {
+	          prefixMatch.push(courseObj);
+	        } else if (courseObj.name.indexOf(queryString) > -1) {
+	          substringMatch.push(courseObj);
+	        }
+	      });
+	      this.setState({ temperaryCourseList: prefixMatch.concat(substringMatch) });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      var _props = this.props;
+	      var courseList = _props.courseList;
+	      var onSelectRemoveCourse = _props.onSelectRemoveCourse;
+	      var selectedCourses = _props.selectedCourses;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'courseCatalog' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'searchWrapper' },
+	          _react2.default.createElement('input', {
+	            ref: 'courseSearchBox',
+	            className: 'courseSearch',
+	            placeholder: 'Search By Course Name',
+	            onKeyUp: function onKeyUp(event) {
+	              return _this2.onSearchCourse(event.target.value);
+	            },
+	            onKeyPress: function onKeyPress(event) {
+	              if (event.key === 'Enter') {
+	                event.target.blur();
+	                return;
+	              }
+	            }
+	          })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'coursesWrapper' },
+	          this.state.temperaryCourseList.length && this.state.temperaryCourseList.map(function (courseObj, idx) {
+	            return _react2.default.createElement(_Course2.default, {
+	              key: idx + '-' + courseObj.name,
+	              courseObj: courseObj,
+	              isSelected: !!selectedCourses[courseObj.id],
+	              onSelectRemoveCourse: onSelectRemoveCourse
+	            });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return CourseCatalog;
+	}(_react2.default.Component);
+	
+	;
+	exports.default = CourseCatalog;
 
 /***/ },
 /* 481 */
