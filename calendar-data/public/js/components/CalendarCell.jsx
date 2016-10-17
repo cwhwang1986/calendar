@@ -8,31 +8,36 @@ const CalendarCell = ({dayIdx, timeIdx, courseList, selected, onSelectRemoveCour
       {
         selected.map((courseId, idx) => {
           const courseTimeRange = courseList[courseId].timeIndex;
+          const height = (courseTimeRange[courseTimeRange.length - 1] - timeIdx) * 50 - 1;
+          const style = {
+            height,
+            width: `calc(100%/${selected.length})`,
+            background: colorHex[courseId%5],
+            border: `1px solid ${borderColorHex[courseId%5]}`,
+          };
           if (courseTimeRange[0] === timeIdx) {
-            const height = (courseTimeRange[courseTimeRange.length - 1] - timeIdx) * 50 - 1;
-            const style = {
-              height,
-              width: `calc(100%/${selected.length})`,
-              background: colorHex[courseId%5],
-              border: `1px solid ${borderColorHex[courseId%5]}`,
-            };
-            return (
-              <div 
-                key={courseId} 
-                style={style} 
-                className='cellContent'
-                onClick={event => {
-                  event.stopPropagation();
-                  const {top, left} = event.target.getBoundingClientRect();
-                  showCourseSetting(courseId, top, left);
-                }}
-              >
-                {courseList[courseId].name}
-              </div>
-            );
+            style['borderBottom'] = 'none'; 
+            style['zIndex'] = 2; 
+          } else if (courseTimeRange[1] - 1 === timeIdx) {
+            style['borderTop'] = 'none'; 
           } else {
-            return null;
+            style['borderTop'] = style['borderBottom'] ='none'; 
           }
+          return (
+            <div 
+              key={courseId} 
+              style={style} 
+              className='cellContent'
+              onClick={event => {
+                event.stopPropagation();
+                if (courseTimeRange[0] !== timeIdx) return;
+                const {top, left} = event.target.getBoundingClientRect();
+                showCourseSetting(courseId, top, left);
+              }}
+            >
+              {courseTimeRange[0] === timeIdx ? courseList[courseId].name : ''}
+            </div>
+          );
         })
       }
     </div>

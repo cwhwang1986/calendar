@@ -29985,36 +29985,41 @@
 	    { className: 'calendarCell' },
 	    selected.map(function (courseId, idx) {
 	      var courseTimeRange = courseList[courseId].timeIndex;
+	      var height = (courseTimeRange[courseTimeRange.length - 1] - timeIdx) * 50 - 1;
+	      var style = {
+	        height: height,
+	        width: 'calc(100%/' + selected.length + ')',
+	        background: colorHex[courseId % 5],
+	        border: '1px solid ' + borderColorHex[courseId % 5]
+	      };
 	      if (courseTimeRange[0] === timeIdx) {
-	        var height = (courseTimeRange[courseTimeRange.length - 1] - timeIdx) * 50 - 1;
-	        var style = {
-	          height: height,
-	          width: 'calc(100%/' + selected.length + ')',
-	          background: colorHex[courseId % 5],
-	          border: '1px solid ' + borderColorHex[courseId % 5]
-	        };
-	        return _react2.default.createElement(
-	          'div',
-	          {
-	            key: courseId,
-	            style: style,
-	            className: 'cellContent',
-	            onClick: function onClick(event) {
-	              event.stopPropagation();
-	
-	              var _event$target$getBoun = event.target.getBoundingClientRect();
-	
-	              var top = _event$target$getBoun.top;
-	              var left = _event$target$getBoun.left;
-	
-	              showCourseSetting(courseId, top, left);
-	            }
-	          },
-	          courseList[courseId].name
-	        );
+	        style['borderBottom'] = 'none';
+	        style['zIndex'] = 2;
+	      } else if (courseTimeRange[1] - 1 === timeIdx) {
+	        style['borderTop'] = 'none';
 	      } else {
-	        return null;
+	        style['borderTop'] = style['borderBottom'] = 'none';
 	      }
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          key: courseId,
+	          style: style,
+	          className: 'cellContent',
+	          onClick: function onClick(event) {
+	            event.stopPropagation();
+	            if (courseTimeRange[0] !== timeIdx) return;
+	
+	            var _event$target$getBoun = event.target.getBoundingClientRect();
+	
+	            var top = _event$target$getBoun.top;
+	            var left = _event$target$getBoun.left;
+	
+	            showCourseSetting(courseId, top, left);
+	          }
+	        },
+	        courseTimeRange[0] === timeIdx ? courseList[courseId].name : ''
+	      );
 	    })
 	  );
 	};
